@@ -12,7 +12,7 @@ export interface User {
   updatedAt: Date;
 }
 
-export type UserRole = 'global_admin' | 'admin' | 'sm' | 'dealer' | 'operation';
+export type UserRole = 'admin';
 
 export type Country = 'poland' | 'georgia' | 'colombia' | 'latvia' | 'lithuania';
 

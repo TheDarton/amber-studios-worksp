@@ -33,61 +33,50 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
       id: 'dashboard', 
       label: 'Dashboard', 
       icon: BarChart3,
-      roles: ['dealer', 'sm', 'operation', 'admin', 'global_admin']
     },
     { 
       id: 'schedules', 
       label: 'Schedules', 
       icon: Calendar,
-      roles: ['dealer', 'sm', 'operation', 'admin', 'global_admin']
     },
     { 
       id: 'mistakes', 
       label: 'Mistake Statistics', 
       icon: BarChart3,
-      roles: ['dealer', 'sm', 'operation', 'admin', 'global_admin']
     },
     { 
       id: 'daily-mistakes', 
       label: 'Daily Mistakes', 
       icon: AlertTriangle,
-      roles: ['dealer', 'sm', 'operation', 'admin', 'global_admin']
     },
     { 
       id: 'training', 
       label: 'Training Academy', 
       icon: BookOpen,
-      roles: ['dealer', 'sm', 'operation', 'admin', 'global_admin']
     },
     { 
       id: 'news', 
       label: 'News & Updates', 
       icon: Newspaper,
-      roles: ['sm', 'operation', 'admin', 'global_admin']
     },
     { 
       id: 'request-schedule', 
       label: 'Request Schedule', 
       icon: ClipboardList,
-      roles: ['dealer', 'sm', 'operation', 'admin', 'global_admin']
     },
     { 
       id: 'handover', 
       label: 'Handover/Takeover', 
       icon: ArrowLeftRight,
-      roles: ['sm', 'operation', 'admin', 'global_admin']
     },
     { 
       id: 'admin', 
       label: 'Admin Panel', 
       icon: Settings,
-      roles: ['admin', 'global_admin']
     },
   ];
 
-  const availableItems = navItems.filter(item => 
-    hasPermission(user.role, item.roles as any)
-  );
+  const availableItems = navItems; // All items available to admin
 
   const NavContent = ({ onItemClick }: { onItemClick?: () => void }) => (
     <div className="flex flex-col h-full">

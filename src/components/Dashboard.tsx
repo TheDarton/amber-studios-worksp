@@ -17,16 +17,8 @@ export function Dashboard() {
 
   const getRoleWelcome = () => {
     switch (user.role) {
-      case 'dealer':
-        return 'Welcome to your workspace. Check your schedule and training materials.';
-      case 'sm':
-        return 'Manage your team and track performance across all dealers.';
-      case 'operation':
-        return 'Monitor operations and access comprehensive data insights.';
       case 'admin':
         return 'Manage users, import data, and oversee your country operations.';
-      case 'global_admin':
-        return 'Global oversight and administration across all countries.';
       default:
         return 'Welcome to Amber-Studios Workspace.';
     }
@@ -34,32 +26,11 @@ export function Dashboard() {
 
   const getQuickStats = () => {
     // Mock data - in real app, this would come from API
-    switch (user.role) {
-      case 'dealer':
-        return [
-          { label: 'Upcoming Shifts', value: '3', icon: Calendar, color: 'primary' },
-          { label: 'Training Progress', value: '85%', icon: BookOpen, color: 'accent' },
-          { label: 'Recent Mistakes', value: '2', icon: Warning, color: 'destructive' },
-        ];
-      case 'sm':
-        return [
-          { label: 'Team Members', value: '8', icon: Calendar, color: 'primary' },
-          { label: 'Team Performance', value: '92%', icon: TrendUp, color: 'accent' },
-          { label: 'Open Issues', value: '3', icon: Warning, color: 'destructive' },
-        ];
-      case 'operation':
-        return [
-          { label: 'Active Dealers', value: '45', icon: Calendar, color: 'primary' },
-          { label: 'Overall Efficiency', value: '88%', icon: ChartBar, color: 'accent' },
-          { label: 'Critical Issues', value: '1', icon: Warning, color: 'destructive' },
-        ];
-      default:
-        return [
-          { label: 'Total Users', value: '156', icon: Calendar, color: 'primary' },
-          { label: 'System Health', value: '98%', icon: TrendUp, color: 'accent' },
-          { label: 'Pending Actions', value: '5', icon: Clock, color: 'destructive' },
-        ];
-    }
+    return [
+      { label: 'Total Users', value: '156', icon: Calendar, color: 'primary' },
+      { label: 'System Health', value: '98%', icon: TrendUp, color: 'accent' },
+      { label: 'Pending Actions', value: '5', icon: Clock, color: 'destructive' },
+    ];
   };
 
   const getRecentActivity = () => {
@@ -160,31 +131,7 @@ export function Dashboard() {
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-            {user.role === 'dealer' && (
-              <>
-                <button className="p-3 text-left border rounded-lg hover:bg-secondary">
-                  <Calendar className="h-5 w-5 mb-2" />
-                  <div className="text-sm font-medium">View Schedule</div>
-                </button>
-                <button className="p-3 text-left border rounded-lg hover:bg-secondary">
-                  <BookOpen className="h-5 w-5 mb-2" />
-                  <div className="text-sm font-medium">Training</div>
-                </button>
-              </>
-            )}
-            {(user.role === 'sm' || user.role === 'operation') && (
-              <>
-                <button className="p-3 text-left border rounded-lg hover:bg-secondary">
-                  <ChartBar className="h-5 w-5 mb-2" />
-                  <div className="text-sm font-medium">View Reports</div>
-                </button>
-                <button className="p-3 text-left border rounded-lg hover:bg-secondary">
-                  <Warning className="h-5 w-5 mb-2" />
-                  <div className="text-sm font-medium">Review Issues</div>
-                </button>
-              </>
-            )}
-            {(user.role === 'admin' || user.role === 'global_admin') && (
+            {user.role === 'admin' && (
               <>
                 <button className="p-3 text-left border rounded-lg hover:bg-secondary">
                   <Calendar className="h-5 w-5 mb-2" />
@@ -193,6 +140,14 @@ export function Dashboard() {
                 <button className="p-3 text-left border rounded-lg hover:bg-secondary">
                   <ChartBar className="h-5 w-5 mb-2" />
                   <div className="text-sm font-medium">User Management</div>
+                </button>
+                <button className="p-3 text-left border rounded-lg hover:bg-secondary">
+                  <BookOpen className="h-5 w-5 mb-2" />
+                  <div className="text-sm font-medium">Training Content</div>
+                </button>
+                <button className="p-3 text-left border rounded-lg hover:bg-secondary">
+                  <Warning className="h-5 w-5 mb-2" />
+                  <div className="text-sm font-medium">Review Reports</div>
                 </button>
               </>
             )}

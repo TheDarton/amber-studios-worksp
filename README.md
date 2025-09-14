@@ -22,18 +22,12 @@ The application will be available at `http://localhost:5173`
 
 ### Default Login Credentials
 
-**Poland:**
-- Admin: `admin` / `password` 
-- SM: `piotr.sm` / `password`
-- Dealer: `anna.dealer` / `password`
-- Operation: `tomasz.ops` / `password`
+**Admin Access (All Countries):**
+- Login: `admin`
+- Password: `admin`
+- Country: Select from dropdown (Poland, Georgia, Colombia, Latvia, Lithuania)
 
-**Georgia:**
-- Admin: `admin` / `password`
-- SM: `nino.sm` / `password` 
-- Dealer: `david.dealer` / `password`
-
-**Global Admin:** `global.admin` / `password` (works with any country)
+*Note: The system currently supports admin-only access. All admin accounts use the same credentials regardless of country.*
 
 ## 📱 Features
 
@@ -43,11 +37,9 @@ The application will be available at `http://localhost:5173`
 - Global admin with cross-country access
 
 ### Role-Based Access Control
-- **Dealer**: View own schedule, training, and mistake data
-- **SM**: Manage team, access both training academies, news
-- **Operation**: Full data visibility, both academies, news
-- **Admin**: Country management, user management, CSV imports
-- **Global Admin**: Cross-country admin access + admin password recovery
+- **Admin**: Complete country management, user management, CSV imports, full data access
+
+*Note: Currently simplified to admin-only access. Other roles (Dealer, SM, Operation) can be implemented when needed.*
 
 ### Data Management
 - CSV import system for 8 file types per country

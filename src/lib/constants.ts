@@ -9,11 +9,7 @@ export const COUNTRIES: { value: Country; label: string }[] = [
 ];
 
 export const USER_ROLES: { value: UserRole; label: string }[] = [
-  { value: 'global_admin', label: 'Global Admin' },
   { value: 'admin', label: 'Admin' },
-  { value: 'sm', label: 'SM' },
-  { value: 'dealer', label: 'Dealer' },
-  { value: 'operation', label: 'Operation' },
 ];
 
 export const CSV_FILE_TYPES = [
@@ -28,39 +24,12 @@ export const CSV_FILE_TYPES = [
 ];
 
 export const ROLE_PERMISSIONS = {
-  dealer: {
-    csvAccess: ['dealer_schedule_current', 'mistake_statistics_current', 'daily_mistakes_current'],
-    trainingAccess: ['dealer'],
-    canSeeAllRows: false,
-    hasNewsAccess: false,
-  },
-  sm: {
-    csvAccess: ['sm_schedule_current', 'mistake_statistics_current', 'daily_mistakes_current'],
-    trainingAccess: ['dealer', 'sm'],
-    canSeeAllRows: false,
-    hasNewsAccess: true,
-  },
-  operation: {
-    csvAccess: ['dealer_schedule_current', 'sm_schedule_current', 'mistake_statistics_current', 'daily_mistakes_current'],
-    trainingAccess: ['dealer', 'sm'],
-    canSeeAllRows: true,
-    hasNewsAccess: true,
-  },
   admin: {
-    csvAccess: 'all',
+    csvAccess: 'all' as const,
     trainingAccess: ['dealer', 'sm'],
     canSeeAllRows: true,
     hasNewsAccess: true,
     canManageUsers: true,
     canImportCSV: true,
-  },
-  global_admin: {
-    csvAccess: 'all',
-    trainingAccess: ['dealer', 'sm'],
-    canSeeAllRows: true,
-    hasNewsAccess: true,
-    canManageUsers: true,
-    canImportCSV: true,
-    canResetAdminPasswords: true,
   },
 } as const;
