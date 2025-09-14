@@ -8,37 +8,37 @@
 }
 
 :root {
-  /* Amber Studios Brand Colors */
-  --background: oklch(0.99 0 0); /* Near white */
-  --foreground: oklch(0.25 0.15 285); /* Dark violet */
+  /* Amber Studios Dark Theme */
+  --background: oklch(0.08 0.02 285); /* Dark violet-tinted background */
+  --foreground: oklch(0.95 0.02 285); /* Light text */
   
-  --card: oklch(0.98 0 0);
-  --card-foreground: oklch(0.25 0.15 285);
-  --popover: oklch(0.99 0 0);
-  --popover-foreground: oklch(0.25 0.15 285);
+  --card: oklch(0.12 0.03 285); /* Slightly lighter dark cards */
+  --card-foreground: oklch(0.95 0.02 285);
+  --popover: oklch(0.10 0.03 285);
+  --popover-foreground: oklch(0.95 0.02 285);
   
-  /* Primary: Violet #4F06A7 */
-  --primary: oklch(0.35 0.25 285);
-  --primary-foreground: oklch(0.99 0 0);
+  /* Primary: Violet #4F06A7 - brightened for dark theme */
+  --primary: oklch(0.55 0.3 285);
+  --primary-foreground: oklch(0.05 0.02 285);
   
-  --secondary: oklch(0.96 0 0);
-  --secondary-foreground: oklch(0.25 0.15 285);
+  --secondary: oklch(0.15 0.03 285);
+  --secondary-foreground: oklch(0.95 0.02 285);
   
-  --muted: oklch(0.96 0 0);
-  --muted-foreground: oklch(0.55 0.05 285);
+  --muted: oklch(0.14 0.03 285);
+  --muted-foreground: oklch(0.65 0.05 285);
   
-  /* Accent: Orange #FFA500 */
-  --accent: oklch(0.75 0.15 65);
-  --accent-foreground: oklch(0.25 0.15 285);
+  /* Accent: Orange #FFA500 - adjusted for dark theme */
+  --accent: oklch(0.75 0.18 65);
+  --accent-foreground: oklch(0.05 0.02 285);
   
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.99 0 0);
+  --destructive: oklch(0.65 0.3 27);
+  --destructive-foreground: oklch(0.95 0.02 285);
   
-  --border: oklch(0.92 0 0);
-  --input: oklch(0.92 0 0);
-  --ring: oklch(0.35 0.25 285);
+  --border: oklch(0.20 0.03 285);
+  --input: oklch(0.18 0.03 285);
+  --ring: oklch(0.55 0.3 285);
   
-  --radius: 0.5rem;
+  --radius: 0.75rem;
 }
 
 @theme {
@@ -74,4 +74,35 @@
 
 body {
   font-family: var(--font-family-host);
+  background: linear-gradient(135deg, oklch(0.08 0.02 285) 0%, oklch(0.06 0.03 285) 50%, oklch(0.08 0.02 285) 100%);
+  background-attachment: fixed;
+}
+
+/* Custom scrollbar for dark theme */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: oklch(0.10 0.02 285);
+}
+
+::-webkit-scrollbar-thumb {
+  background: oklch(0.20 0.05 285);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: oklch(0.30 0.08 285);
+}
+
+/* Smooth transitions for interactive elements */
+* {
+  transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+/* Enhanced focus rings */
+:focus-visible {
+  outline: 2px solid oklch(0.55 0.3 285);
+  outline-offset: 2px;
 }

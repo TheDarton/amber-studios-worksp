@@ -50,11 +50,11 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-gradient-to-br from-background via-background to-background/80">
       <Navigation currentPage={currentPage} onNavigate={setCurrentPage} />
       
-      <main className="md:ml-72 min-h-screen">
-        <div className="container mx-auto p-4 md:p-6 pt-16 md:pt-6">
+      <main className="md:ml-80 min-h-screen">
+        <div className="container mx-auto p-4 md:p-8 pt-16 md:pt-8">
           {renderPage()}
         </div>
       </main>
