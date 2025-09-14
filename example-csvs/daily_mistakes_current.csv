@@ -1,0 +1,6 @@
+date,dealer_name,dealer_login,mistake_description,category,severity,correction_action,status
+2024-12-20,Anna Wiśniewska,anna.dealer,Incorrect price entry for premium service,Pricing,medium,Retrain on pricing policy,resolved
+2024-12-21,Anna Wiśniewska,anna.dealer,Missing customer signature on contract,Documentation,low,Reminder sent about documentation requirements,resolved
+2024-12-19,Marek Kowalczyk,marek.dealer,Rude behavior reported by customer,Customer Service,high,Formal counseling session scheduled,in_progress
+2024-12-22,Marek Kowalczyk,marek.dealer,Failed to follow up with premium client,Customer Service,high,Additional training assigned,open
+2024-12-20,Tomasz Nowak,tomasz.dealer,Forgot to update system status,System Usage,low,System training refresher,resolved
