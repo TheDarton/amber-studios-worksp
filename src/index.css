@@ -8,24 +8,24 @@
 }
 
 :root {
-  /* Amber Studios Dark Theme */
-  --background: oklch(0.08 0.02 285); /* Dark violet-tinted background */
+  /* Amber Studios Dark Theme - Lighter Background */
+  --background: oklch(0.16 0.03 285); /* Lighter violet-tinted background */
   --foreground: oklch(0.95 0.02 285); /* Light text */
   
-  --card: oklch(0.12 0.03 285); /* Slightly lighter dark cards */
+  --card: oklch(0.20 0.04 285); /* Lighter dark cards */
   --card-foreground: oklch(0.95 0.02 285);
-  --popover: oklch(0.10 0.03 285);
+  --popover: oklch(0.18 0.04 285);
   --popover-foreground: oklch(0.95 0.02 285);
   
   /* Primary: Violet #4F06A7 - brightened for dark theme */
   --primary: oklch(0.55 0.3 285);
   --primary-foreground: oklch(0.05 0.02 285);
   
-  --secondary: oklch(0.15 0.03 285);
+  --secondary: oklch(0.22 0.04 285);
   --secondary-foreground: oklch(0.95 0.02 285);
   
-  --muted: oklch(0.14 0.03 285);
-  --muted-foreground: oklch(0.65 0.05 285);
+  --muted: oklch(0.24 0.04 285);
+  --muted-foreground: oklch(0.70 0.05 285);
   
   /* Accent: Orange #FFA500 - adjusted for dark theme */
   --accent: oklch(0.75 0.18 65);
@@ -34,8 +34,8 @@
   --destructive: oklch(0.65 0.3 27);
   --destructive-foreground: oklch(0.95 0.02 285);
   
-  --border: oklch(0.20 0.03 285);
-  --input: oklch(0.18 0.03 285);
+  --border: oklch(0.28 0.04 285);
+  --input: oklch(0.26 0.04 285);
   --ring: oklch(0.55 0.3 285);
   
   --radius: 0.75rem;
@@ -74,7 +74,7 @@
 
 body {
   font-family: var(--font-family-host);
-  background: linear-gradient(135deg, oklch(0.08 0.02 285) 0%, oklch(0.06 0.03 285) 50%, oklch(0.08 0.02 285) 100%);
+  background: linear-gradient(135deg, oklch(0.16 0.03 285) 0%, oklch(0.14 0.04 285) 50%, oklch(0.16 0.03 285) 100%);
   background-attachment: fixed;
 }
 
@@ -84,16 +84,16 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: oklch(0.10 0.02 285);
+  background: oklch(0.18 0.03 285);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: oklch(0.20 0.05 285);
+  background: oklch(0.28 0.05 285);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: oklch(0.30 0.08 285);
+  background: oklch(0.38 0.08 285);
 }
 
 /* Smooth transitions for interactive elements */

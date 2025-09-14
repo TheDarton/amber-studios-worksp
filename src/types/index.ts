@@ -131,14 +131,10 @@ export interface CSVImportJob {
 }
 
 export type CSVFileType = 
-  | 'dealer_schedule_current'
-  | 'dealer_schedule_adjacent'
-  | 'sm_schedule_current'
-  | 'sm_schedule_adjacent'
-  | 'mistake_statistics_current'
-  | 'mistake_statistics_previous'
-  | 'daily_mistakes_current'
-  | 'daily_mistakes_previous';
+  | 'sm_schedule'
+  | 'dealer_schedule'
+  | 'daily_mistakes'
+  | 'mistake_statistics';
 
 export interface CSVError {
   row: number;

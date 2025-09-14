@@ -10,24 +10,24 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Badge } from '@/components/ui/badge';
 import { Plus, Pencil, Trash, Key } from '@phosphor-icons/react';
 import { User, UserRole, Country } from '@/types';
+import { useAuth } from '@/hooks/useAuth';
 import { toast } from 'sonner';
 
 export function UserManagement() {
+  const { country: adminCountry } = useAuth();
   const [users, setUsers] = useKV<User[]>('admin-users', []);
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
   const [editingUser, setEditingUser] = useState<User | null>(null);
   const [newUser, setNewUser] = useState({
     login: '',
-    email: '',
     firstName: '',
     lastName: '',
     role: 'dealer' as UserRole,
-    country: 'poland' as Country,
     password: ''
   });
 
   const handleCreateUser = () => {
-    if (!newUser.login || !newUser.email || !newUser.firstName || !newUser.lastName || !newUser.password) {
+    if (!newUser.login || !newUser.firstName || !newUser.lastName || !newUser.password) {
       toast.error('Please fill in all required fields');
       return;
     }
@@ -35,11 +35,11 @@ export function UserManagement() {
     const user: User = {
       id: Date.now().toString(),
       login: newUser.login,
-      email: newUser.email,
+      email: `${newUser.login}@company.com`, // Auto-generate email
       firstName: newUser.firstName,
       lastName: newUser.lastName,
       role: newUser.role,
-      country: newUser.country,
+      country: adminCountry || 'poland', // Use admin's country
       isActive: true,
       createdAt: new Date(),
       updatedAt: new Date()
@@ -58,11 +58,9 @@ export function UserManagement() {
     
     setNewUser({
       login: '',
-      email: '',
       firstName: '',
       lastName: '',
       role: 'dealer',
-      country: 'poland',
       password: ''
     });
     setIsCreateDialogOpen(false);
@@ -155,7 +153,7 @@ export function UserManagement() {
                       id="firstName"
                       value={newUser.firstName}
                       onChange={(e) => setNewUser(prev => ({ ...prev, firstName: e.target.value }))}
-                      placeholder="John"
+                      placeholder=""
                     />
                   </div>
                   <div className="space-y-2">
@@ -164,7 +162,7 @@ export function UserManagement() {
                       id="lastName"
                       value={newUser.lastName}
                       onChange={(e) => setNewUser(prev => ({ ...prev, lastName: e.target.value }))}
-                      placeholder="Doe"
+                      placeholder=""
                     />
                   </div>
                 </div>
@@ -175,18 +173,7 @@ export function UserManagement() {
                     id="login"
                     value={newUser.login}
                     onChange={(e) => setNewUser(prev => ({ ...prev, login: e.target.value }))}
-                    placeholder="john.doe"
-                  />
-                </div>
-                
-                <div className="space-y-2">
-                  <Label htmlFor="email">Email</Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    value={newUser.email}
-                    onChange={(e) => setNewUser(prev => ({ ...prev, email: e.target.value }))}
-                    placeholder="john.doe@company.com"
+                    placeholder="username"
                   />
                 </div>
                 
@@ -201,38 +188,20 @@ export function UserManagement() {
                   />
                 </div>
                 
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label>Role</Label>
-                    <Select value={newUser.role} onValueChange={(value: UserRole) => setNewUser(prev => ({ ...prev, role: value }))}>
-                      <SelectTrigger>
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {roles.map(role => (
-                          <SelectItem key={role.value} value={role.value}>
-                            {role.label}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <Label>Country</Label>
-                    <Select value={newUser.country} onValueChange={(value: Country) => setNewUser(prev => ({ ...prev, country: value }))}>
-                      <SelectTrigger>
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {countries.map(country => (
-                          <SelectItem key={country.value} value={country.value}>
-                            {country.label}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
+                <div className="space-y-2">
+                  <Label>Role</Label>
+                  <Select value={newUser.role} onValueChange={(value: UserRole) => setNewUser(prev => ({ ...prev, role: value }))}>
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {roles.map(role => (
+                        <SelectItem key={role.value} value={role.value}>
+                          {role.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </div>
                 
                 <Button onClick={handleCreateUser} className="w-full">

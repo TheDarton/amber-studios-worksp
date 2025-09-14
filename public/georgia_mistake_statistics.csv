@@ -1,0 +1,5 @@
+period,dealer_name,dealer_login,mistake_type,count,severity,trend
+2024-12,Nino Gelashvili,nino.dealer,Customer Service,2,medium,improving
+2024-12,Nino Gelashvili,nino.dealer,Documentation,1,low,stable
+2024-12,Levan Tsereteli,levan.dealer,Documentation,3,low,stable
+2024-12,Mari Khoshtaria,mari.dealer,System Usage,2,high,improving

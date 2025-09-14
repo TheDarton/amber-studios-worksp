@@ -14,7 +14,7 @@ import { toast } from 'sonner';
 export function CSVImport() {
   const [importJobs, setImportJobs] = useKV<CSVImportJob[]>('csv-import-jobs', []);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [fileType, setFileType] = useState<CSVFileType>('dealer_schedule_current');
+  const [fileType, setFileType] = useState<CSVFileType>('sm_schedule');
   const [country, setCountry] = useState<Country>('poland');
 
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -82,14 +82,10 @@ export function CSVImport() {
   };
 
   const fileTypes = [
-    { value: 'dealer_schedule_current', label: 'Dealer Schedule (Current)' },
-    { value: 'dealer_schedule_adjacent', label: 'Dealer Schedule (Adjacent)' },
-    { value: 'sm_schedule_current', label: 'SM Schedule (Current)' },
-    { value: 'sm_schedule_adjacent', label: 'SM Schedule (Adjacent)' },
-    { value: 'mistake_statistics_current', label: 'Mistake Statistics (Current)' },
-    { value: 'mistake_statistics_previous', label: 'Mistake Statistics (Previous)' },
-    { value: 'daily_mistakes_current', label: 'Daily Mistakes (Current)' },
-    { value: 'daily_mistakes_previous', label: 'Daily Mistakes (Previous)' }
+    { value: 'sm_schedule', label: 'SM Schedule' },
+    { value: 'dealer_schedule', label: 'Dealer Schedule' },
+    { value: 'daily_mistakes', label: 'Daily Mistakes' },
+    { value: 'mistake_statistics', label: 'Mistake Statistics' }
   ];
 
   const countries = [
@@ -219,14 +215,34 @@ export function CSVImport() {
 
       <Card>
         <CardHeader>
-          <CardTitle>GitHub Integration</CardTitle>
+          <CardTitle>GitHub Repository CSV Import</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
             <p className="text-muted-foreground">
-              Configure automated CSV import from GitHub repository. Power Automate can push files to a GitHub repo, 
-              and they will be automatically imported into the system.
+              CSV files are automatically imported from the public GitHub repository. Each country has 4 CSV files:
             </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <h4 className="font-medium">Expected File Names:</h4>
+                <ul className="text-sm text-muted-foreground space-y-1">
+                  <li>• <code>{country}_sm_schedule.csv</code></li>
+                  <li>• <code>{country}_dealer_schedule.csv</code></li>
+                  <li>• <code>{country}_daily_mistakes.csv</code></li>
+                  <li>• <code>{country}_mistake_statistics.csv</code></li>
+                </ul>
+              </div>
+              <div className="space-y-2">
+                <h4 className="font-medium">Repository Structure:</h4>
+                <div className="text-sm text-muted-foreground font-mono bg-muted/50 p-3 rounded">
+                  <div>/public/</div>
+                  <div>  ├── poland_sm_schedule.csv</div>
+                  <div>  ├── poland_dealer_schedule.csv</div>
+                  <div>  ├── georgia_sm_schedule.csv</div>
+                  <div>  └── ...</div>
+                </div>
+              </div>
+            </div>
             <div className="space-y-2">
               <Label htmlFor="github-repo">GitHub Repository URL</Label>
               <Input
@@ -236,7 +252,7 @@ export function CSVImport() {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="webhook-url">Webhook URL</Label>
+              <Label htmlFor="webhook-url">Webhook URL (for Power Automate)</Label>
               <Input
                 id="webhook-url"
                 value="https://your-app.com/api/webhook/csv-import"
@@ -244,7 +260,7 @@ export function CSVImport() {
               />
             </div>
             <Button disabled>
-              Configure Integration (Coming Soon)
+              Sync from Repository (Coming Soon)
             </Button>
           </div>
         </CardContent>

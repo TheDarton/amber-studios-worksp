@@ -27,22 +27,25 @@
 
 ### User Management (Admin Only)
 - Create user accounts for SM, Dealer, Operation roles
-- User profile management (name, email, login, role, country)
+- User profile management (name, login, role)
+- Email auto-generated from login
+- Country automatically set to admin's country
 - Password reset functionality
 - User activation/deactivation
 - Role-based access control enforcement
 
 ### CSV Import System (Admin Only)
-- Support for 8 CSV file types:
-  - dealer_schedule_current/adjacent
-  - sm_schedule_current/adjacent  
-  - mistake_statistics_current/previous
-  - daily_mistakes_current/previous
+- Support for 4 CSV file types per country:
+  - sm_schedule (SM work schedules)
+  - dealer_schedule (Dealer work schedules)  
+  - daily_mistakes (Daily mistake reports)
+  - mistake_statistics (Aggregated mistake statistics)
+- Files automatically imported from GitHub repository public folder
+- Expected file naming: {country}_{file_type}.csv
 - File upload with validation
-- Column mapping interface
 - Import progress tracking
 - Error reporting and handling
-- GitHub integration webhook (future)
+- GitHub integration webhook for Power Automate
 
 ### Role-based Navigation
 - Admin: Full access to all features including admin panel
@@ -78,15 +81,15 @@
 - **Simplicity Spectrum**: Clean interface that scales complexity based on user role
 
 ### Color Strategy
-- **Color Scheme Type**: Brand-based corporate palette
-- **Primary Color**: Violet (#4F06A7) - authority, professionalism, security
-- **Secondary Colors**: Near-white backgrounds, structured grays for data organization
-- **Accent Color**: Orange (#FFA500) - calls-to-action, highlights, progress indicators
-- **Color Psychology**: Violet conveys trust and reliability, orange adds energy and action orientation
+- **Color Scheme Type**: Dark theme with brand-based corporate palette
+- **Primary Color**: Violet (#4F06A7) - brightened for dark theme visibility
+- **Background Colors**: Darker violet-tinted backgrounds (lighter than pure black for better readability)
+- **Accent Color**: Orange (#FFA500) - adjusted for dark theme contrast
+- **Color Psychology**: Dark theme reduces eye strain, violet conveys trust and professionalism
 - **Foreground/Background Pairings**: 
-  - Dark violet text on white/light backgrounds (4.5:1+ contrast)
-  - White text on violet backgrounds for primary actions
-  - Orange accents on neutral backgrounds for emphasis
+  - Light text on dark violet-tinted backgrounds (4.5:1+ contrast)
+  - Dark text on violet/orange backgrounds for primary actions
+  - Optimized for dark mode readability and comfort
 
 ### Typography System
 - **Font Pairing Strategy**: Host Grotesk variable font for all text with weight variations
@@ -97,11 +100,12 @@
 - **Legibility Check**: Host Grotesk provides excellent readability at all sizes
 
 ### Visual Hierarchy & Layout
-- **Attention Direction**: Primary actions in violet, secondary in gray, critical alerts in orange
-- **White Space Philosophy**: Generous spacing for mobile clarity, structured density for data tables
+- **Attention Direction**: Primary actions in violet, secondary in lighter tones, critical alerts in orange
+- **White Space Philosophy**: Generous spacing optimized for dark theme readability
 - **Grid System**: Responsive grid system using Tailwind's layout utilities
 - **Responsive Approach**: Mobile-first with progressive enhancement for desktop
-- **Content Density**: Role-appropriate information density (admins see more, dealers see focused views)
+- **Content Density**: Simplified dashboard focusing on navigation rather than information overload
+- **Left Panel Navigation**: Comprehensive sidebar with role-appropriate menu options and user context
 
 ### UI Elements & Component Selection
 - **Component Usage**: Shadcn v4 components for forms, tables, dialogs, and navigation

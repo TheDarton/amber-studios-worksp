@@ -1,0 +1,4 @@
+date,dealer_name,dealer_login,mistake_description,category,severity,correction_action,status
+2024-12-20,Nino Gelashvili,nino.dealer,Language barrier with customer,Customer Service,medium,Georgian language training provided,resolved
+2024-12-21,Levan Tsereteli,levan.dealer,Incorrect documentation format,Documentation,low,Format guidelines shared,resolved
+2024-12-19,Mari Khoshtaria,mari.dealer,Payment processing error,System Usage,high,System training scheduled,in_progress
