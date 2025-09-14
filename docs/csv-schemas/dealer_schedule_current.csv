@@ -1,0 +1,10 @@
+dealerLogin,dealerName,date,shift,location,notes
+john.doe,John Doe,2024-01-15,morning,Warsaw Office,Regular shift
+jane.smith,Jane Smith,2024-01-15,afternoon,Krakow Branch,Training day
+mike.wilson,Mike Wilson,2024-01-15,evening,Gdansk Center,Weekend coverage
+anna.kowalski,Anna Kowalski,2024-01-16,morning,Warsaw Office,Team meeting at 10am
+peter.nowak,Peter Nowak,2024-01-16,afternoon,Lublin Branch,Client presentation
+maria.zielinska,Maria Zielinska,2024-01-16,evening,Wroclaw Office,Inventory check
+adam.kaminski,Adam Kaminski,2024-01-17,morning,Poznan Center,New product launch
+ewa.wojcik,Ewa Wojcik,2024-01-17,afternoon,Szczecin Branch,Monthly review
+tomasz.lewandowski,Tomasz Lewandowski,2024-01-17,evening,Bydgoszcz Office,System maintenance

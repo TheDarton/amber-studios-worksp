@@ -28,55 +28,68 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
   
   if (!user) return null;
 
-  const navItems = [
-    { 
-      id: 'dashboard', 
-      label: 'Dashboard', 
-      icon: BarChart3,
-    },
-    { 
-      id: 'schedules', 
-      label: 'Schedules', 
-      icon: Calendar,
-    },
-    { 
-      id: 'mistakes', 
-      label: 'Mistake Statistics', 
-      icon: BarChart3,
-    },
-    { 
-      id: 'daily-mistakes', 
-      label: 'Daily Mistakes', 
-      icon: AlertTriangle,
-    },
-    { 
-      id: 'training', 
-      label: 'Training Academy', 
-      icon: BookOpen,
-    },
-    { 
-      id: 'news', 
-      label: 'News & Updates', 
-      icon: Newspaper,
-    },
-    { 
-      id: 'request-schedule', 
-      label: 'Request Schedule', 
-      icon: ClipboardList,
-    },
-    { 
-      id: 'handover', 
-      label: 'Handover/Takeover', 
-      icon: ArrowLeftRight,
-    },
-    { 
-      id: 'admin', 
-      label: 'Admin Panel', 
-      icon: Settings,
-    },
-  ];
+  const getAvailableNavItems = () => {
+    const allItems = [
+      { 
+        id: 'dashboard', 
+        label: 'Dashboard', 
+        icon: BarChart3,
+        roles: ['admin', 'sm', 'dealer', 'operation']
+      },
+      { 
+        id: 'schedules', 
+        label: 'Schedules', 
+        icon: Calendar,
+        roles: ['admin', 'sm', 'dealer', 'operation']
+      },
+      { 
+        id: 'mistakes', 
+        label: 'Mistake Statistics', 
+        icon: BarChart3,
+        roles: ['admin', 'sm', 'dealer', 'operation']
+      },
+      { 
+        id: 'daily-mistakes', 
+        label: 'Daily Mistakes', 
+        icon: AlertTriangle,
+        roles: ['admin', 'sm', 'dealer', 'operation']
+      },
+      { 
+        id: 'training', 
+        label: 'Training Academy', 
+        icon: BookOpen,
+        roles: ['admin', 'sm', 'dealer', 'operation']
+      },
+      { 
+        id: 'news', 
+        label: 'News & Updates', 
+        icon: Newspaper,
+        roles: ['admin', 'sm', 'operation'] // Dealers don't see news page
+      },
+      { 
+        id: 'request-schedule', 
+        label: 'Request Schedule', 
+        icon: ClipboardList,
+        roles: ['admin', 'sm', 'dealer', 'operation']
+      },
+      { 
+        id: 'handover', 
+        label: 'Handover/Takeover', 
+        icon: ArrowLeftRight,
+        roles: ['admin', 'sm', 'operation'] // Only SM and Operation handle handovers
+      },
+      { 
+        id: 'admin', 
+        label: 'Admin Panel', 
+        icon: Settings,
+        roles: ['admin'] // Only admins see admin panel
+      },
+    ];
 
-  const availableItems = navItems; // All items available to admin
+    return allItems.filter(item => item.roles.includes(user.role));
+  };
+
+  const availableItems = getAvailableNavItems();
 
   const NavContent = ({ onItemClick }: { onItemClick?: () => void }) => (
     <div className="flex flex-col h-full">

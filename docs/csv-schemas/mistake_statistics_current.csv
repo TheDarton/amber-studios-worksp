@@ -1,0 +1,7 @@
+period,dealerLogin,dealerName,mistakeType,count,severity,trend
+2024-01,john.doe,John Doe,Documentation Error,3,medium,improving
+2024-01,john.doe,John Doe,Process Deviation,1,high,stable  
+2024-01,jane.smith,Jane Smith,Data Entry Error,5,low,worsening
+2024-01,jane.smith,Jane Smith,Communication Issue,2,medium,stable
+2024-01,mike.wilson,Mike Wilson,Quality Check Miss,1,high,improving
+2024-01,anna.kowalski,Anna Kowalski,Timeline Delay,4,medium,stable

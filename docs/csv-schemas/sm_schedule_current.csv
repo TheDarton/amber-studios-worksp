@@ -1,0 +1,6 @@
+smLogin,smName,date,shift,area,dealers,notes
+manager1,Alex Manager,2024-01-15,morning,North Warsaw,"john.doe,jane.smith",Team coordination
+manager2,Sarah Leader,2024-01-15,afternoon,South Krakow,"mike.wilson,anna.kowalski",Client visits
+manager3,Tom Supervisor,2024-01-15,evening,Central Gdansk,"peter.nowak",Evening operations
+manager1,Alex Manager,2024-01-16,morning,North Warsaw,"john.doe,jane.smith,maria.zielinska",Full team coverage
+manager2,Sarah Leader,2024-01-16,afternoon,South Krakow,"mike.wilson",Reduced coverage

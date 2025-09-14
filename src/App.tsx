@@ -3,6 +3,7 @@ import { Toaster } from '@/components/ui/sonner';
 import { LoginModal } from '@/components/LoginModal';
 import { Navigation } from '@/components/Navigation';
 import { Dashboard } from '@/components/Dashboard';
+import { AdminPanel } from '@/components/AdminPanel';
 import { useAuth } from '@/hooks/useAuth';
 import { Country } from '@/types';
 
@@ -33,7 +34,7 @@ function App() {
       case 'handover':
         return <div className="p-6"><h1 className="text-2xl font-bold">Handover/Takeover</h1><p>Coming soon...</p></div>;
       case 'admin':
-        return <div className="p-6"><h1 className="text-2xl font-bold">Admin Panel</h1><p>Coming soon...</p></div>;
+        return <AdminPanel />;
       default:
         return <Dashboard />;
     }
