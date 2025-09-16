@@ -48,7 +48,7 @@ export function LoginModal({ isOpen, onLogin }: LoginModalProps) {
 
   return (
     <Dialog open={isOpen}>
-      <DialogContent className="sm:max-w-md bg-card border-border shadow-2xl" hideCloseButton aria-describedby="login-description">
+      <DialogContent className="sm:max-w-md bg-card border-border shadow-2xl" aria-describedby="login-description">
         <div className="absolute inset-0 bg-gradient-to-br from-primary/3 to-accent/3 rounded-lg" />
         
         <DialogHeader className="relative">
