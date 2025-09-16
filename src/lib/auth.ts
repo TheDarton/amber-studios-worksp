@@ -65,7 +65,7 @@ export class AuthService {
   static getStoredUsers(country: Country): User[] {
     try {
       // This is a simplified approach - in real app use proper database
-      const storedUsers = localStorage.getItem('admin-users');
+      const storedUsers = localStorage.getItem(`admin-users-${country}`);
       if (storedUsers) {
         const allUsers: User[] = JSON.parse(storedUsers);
         return allUsers.filter(u => u.country === country);

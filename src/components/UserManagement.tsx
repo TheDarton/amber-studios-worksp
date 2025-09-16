@@ -15,7 +15,7 @@ import { toast } from 'sonner';
 
 export function UserManagement() {
   const { country: adminCountry } = useAuth();
-  const [users, setUsers] = useKV<User[]>('admin-users', []);
+  const [users, setUsers] = useKV<User[]>(`admin-users-${adminCountry}`, []);
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
   const [editingUser, setEditingUser] = useState<User | null>(null);
   const [newUser, setNewUser] = useState({
@@ -27,19 +27,19 @@ export function UserManagement() {
   });
 
   const handleCreateUser = () => {
-    if (!newUser.login || !newUser.firstName || !newUser.lastName || !newUser.password) {
-      toast.error('Please fill in all required fields');
+    if (!newUser.login || !newUser.password) {
+      toast.error('Login and password are required');
       return;
     }
 
     const user: User = {
       id: Date.now().toString(),
       login: newUser.login,
-      email: `${newUser.login}@company.com`, // Auto-generate email
-      firstName: newUser.firstName,
-      lastName: newUser.lastName,
+      email: `${newUser.login}@${adminCountry}-amber-studios.com`,
+      firstName: newUser.firstName || '',
+      lastName: newUser.lastName || '',
       role: newUser.role,
-      country: adminCountry || 'poland', // Use admin's country
+      country: adminCountry || 'poland',
       isActive: true,
       createdAt: new Date(),
       updatedAt: new Date()
@@ -47,9 +47,9 @@ export function UserManagement() {
 
     setUsers(currentUsers => {
       const updated = [...(currentUsers || []), user];
-      // Also sync to localStorage for auth service
+      // Also sync to localStorage for auth service (country-specific)
       try {
-        localStorage.setItem('admin-users', JSON.stringify(updated));
+        localStorage.setItem(`admin-users-${adminCountry}`, JSON.stringify(updated));
       } catch (error) {
         console.error('Failed to sync users to localStorage:', error);
       }
@@ -70,9 +70,9 @@ export function UserManagement() {
   const handleDeleteUser = (userId: string) => {
     setUsers(currentUsers => {
       const updated = (currentUsers || []).filter(u => u.id !== userId);
-      // Sync to localStorage
+      // Sync to localStorage (country-specific)
       try {
-        localStorage.setItem('admin-users', JSON.stringify(updated));
+        localStorage.setItem(`admin-users-${adminCountry}`, JSON.stringify(updated));
       } catch (error) {
         console.error('Failed to sync users to localStorage:', error);
       }
@@ -93,9 +93,9 @@ export function UserManagement() {
           ? { ...u, isActive: !u.isActive, updatedAt: new Date() }
           : u
       );
-      // Sync to localStorage
+      // Sync to localStorage (country-specific)
       try {
-        localStorage.setItem('admin-users', JSON.stringify(updated));
+        localStorage.setItem(`admin-users-${adminCountry}`, JSON.stringify(updated));
       } catch (error) {
         console.error('Failed to sync users to localStorage:', error);
       }
@@ -148,7 +148,7 @@ export function UserManagement() {
               <div className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="firstName">First Name</Label>
+                    <Label htmlFor="firstName">First Name (Optional)</Label>
                     <Input
                       id="firstName"
                       value={newUser.firstName}
@@ -157,7 +157,7 @@ export function UserManagement() {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="lastName">Last Name</Label>
+                    <Label htmlFor="lastName">Last Name (Optional)</Label>
                     <Input
                       id="lastName"
                       value={newUser.lastName}
@@ -168,23 +168,25 @@ export function UserManagement() {
                 </div>
                 
                 <div className="space-y-2">
-                  <Label htmlFor="login">Login</Label>
+                  <Label htmlFor="login">Login *</Label>
                   <Input
                     id="login"
                     value={newUser.login}
                     onChange={(e) => setNewUser(prev => ({ ...prev, login: e.target.value }))}
-                    placeholder="username"
+                    placeholder=""
+                    required
                   />
                 </div>
                 
                 <div className="space-y-2">
-                  <Label htmlFor="password">Initial Password</Label>
+                  <Label htmlFor="password">Initial Password *</Label>
                   <Input
                     id="password"
                     type="password"
                     value={newUser.password}
                     onChange={(e) => setNewUser(prev => ({ ...prev, password: e.target.value }))}
-                    placeholder="Enter initial password"
+                    placeholder=""
+                    required
                   />
                 </div>
                 
@@ -236,7 +238,10 @@ export function UserManagement() {
                   {users.map((user) => (
                     <TableRow key={user.id}>
                       <TableCell className="font-medium">
-                        {user.firstName} {user.lastName}
+                        {user.firstName || user.lastName 
+                          ? `${user.firstName} ${user.lastName}`.trim()
+                          : user.login
+                        }
                       </TableCell>
                       <TableCell>{user.login}</TableCell>
                       <TableCell>{user.email}</TableCell>

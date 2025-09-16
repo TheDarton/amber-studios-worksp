@@ -7,7 +7,8 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { COUNTRIES } from '@/lib/constants';
 import { Country } from '@/types';
 import { toast } from 'sonner';
-import { Building } from '@phosphor-icons/react';
+import { Calendar, Clock, Users } from '@phosphor-icons/react';
+import amberLogo from '@/assets/images/amber-studios-logo.png';
 
 interface LoginModalProps {
   isOpen: boolean;
@@ -47,17 +48,35 @@ export function LoginModal({ isOpen, onLogin }: LoginModalProps) {
         <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-accent/5 rounded-lg" />
         
         <DialogHeader className="relative">
-          <div className="flex items-center justify-center mb-4">
-            <div className="w-12 h-12 bg-gradient-to-br from-primary to-accent rounded-xl flex items-center justify-center shadow-lg shadow-primary/20">
-              <Building className="w-6 h-6 text-primary-foreground" />
-            </div>
+          <div className="flex items-center justify-center mb-6">
+            <img 
+              src={amberLogo} 
+              alt="Amber Studios" 
+              className="h-16 w-auto object-contain"
+            />
           </div>
-          <DialogTitle className="text-center text-2xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+          <DialogTitle className="text-center text-2xl font-bold text-foreground">
             Amber-Studios Workspace
           </DialogTitle>
-          <p className="text-center text-sm text-muted-foreground mt-2">
-            Sign in to access your workspace
-          </p>
+          <div className="text-center mt-4 space-y-2">
+            <p className="text-sm text-muted-foreground">
+              Shift Management System for amber-studios.com
+            </p>
+            <div className="flex items-center justify-center space-x-6 mt-3">
+              <div className="flex items-center space-x-2 text-xs text-muted-foreground">
+                <Calendar className="w-4 h-4 text-primary" />
+                <span>Schedule Management</span>
+              </div>
+              <div className="flex items-center space-x-2 text-xs text-muted-foreground">
+                <Clock className="w-4 h-4 text-accent" />
+                <span>Shift Tracking</span>
+              </div>
+              <div className="flex items-center space-x-2 text-xs text-muted-foreground">
+                <Users className="w-4 h-4 text-primary" />
+                <span>Team Management</span>
+              </div>
+            </div>
+          </div>
         </DialogHeader>
         
         <form onSubmit={handleSubmit} className="space-y-6 relative">
@@ -109,7 +128,7 @@ export function LoginModal({ isOpen, onLogin }: LoginModalProps) {
 
           <Button 
             type="submit" 
-            className="w-full h-11 bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-primary-foreground font-medium shadow-lg shadow-primary/20 transition-all duration-200" 
+            className="w-full h-11 bg-gradient-to-r from-primary to-accent hover:from-primary/90 hover:to-accent/90 text-white font-medium shadow-lg shadow-primary/20 transition-all duration-200" 
             disabled={isLoading}
           >
             {isLoading ? (

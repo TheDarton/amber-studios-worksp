@@ -2,14 +2,13 @@ import { useState } from 'react';
 import { Toaster } from '@/components/ui/sonner';
 import { LoginModal } from '@/components/LoginModal';
 import { Navigation } from '@/components/Navigation';
-import { Dashboard } from '@/components/Dashboard';
 import { AdminPanel } from '@/components/AdminPanel';
 import { useAuth } from '@/hooks/useAuth';
 import { Country } from '@/types';
 
 function App() {
   const { user, isAuthenticated, login } = useAuth();
-  const [currentPage, setCurrentPage] = useState('dashboard');
+  const [currentPage, setCurrentPage] = useState('schedules');
 
   const handleLogin = async (loginValue: string, password: string, country: Country) => {
     return await login(loginValue, password, country);
@@ -17,8 +16,6 @@ function App() {
 
   const renderPage = () => {
     switch (currentPage) {
-      case 'dashboard':
-        return <Dashboard />;
       case 'schedules':
         return <div className="p-6"><h1 className="text-2xl font-bold">Schedules</h1><p>Coming soon...</p></div>;
       case 'mistakes':
@@ -36,7 +33,7 @@ function App() {
       case 'admin':
         return <AdminPanel />;
       default:
-        return <Dashboard />;
+        return <div className="p-6"><h1 className="text-2xl font-bold">Schedules</h1><p>Coming soon...</p></div>;
     }
   };
 

@@ -17,6 +17,7 @@ import {
   SignOut as LogOut,
   User
 } from '@phosphor-icons/react';
+import amberLogo from '@/assets/images/amber-studios-logo.png';
 
 interface NavigationProps {
   currentPage: string;
@@ -30,12 +31,6 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
 
   const getAvailableNavItems = () => {
     const allItems = [
-      { 
-        id: 'dashboard', 
-        label: 'Dashboard', 
-        icon: BarChart3,
-        roles: ['admin', 'sm', 'dealer', 'operation']
-      },
       { 
         id: 'schedules', 
         label: 'Schedules', 
@@ -96,17 +91,19 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
       {/* Header */}
       <div className="p-6 bg-gradient-to-r from-primary/10 to-accent/10 border-b border-border/50">
         <div className="flex items-center space-x-3 mb-3">
-          <div className="w-8 h-8 bg-gradient-to-br from-primary to-accent rounded-lg flex items-center justify-center">
-            <span className="text-primary-foreground font-bold text-sm">A</span>
-          </div>
-          <div>
-            <h2 className="text-lg font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-              Amber-Studios
-            </h2>
-          </div>
+          <img 
+            src={amberLogo} 
+            alt="Amber Studios" 
+            className="h-8 w-auto object-contain"
+          />
         </div>
         <div className="space-y-1">
-          <p className="text-sm font-medium text-foreground">{user.firstName} {user.lastName}</p>
+          <p className="text-sm font-medium text-foreground">
+            {user.firstName || user.lastName 
+              ? `${user.firstName} ${user.lastName}`.trim()
+              : user.login
+            }
+          </p>
           <div className="flex items-center space-x-2">
             <span className="px-2 py-1 text-xs bg-primary/20 text-primary rounded-full font-medium capitalize">
               {user.role.replace('_', ' ')}
@@ -163,7 +160,11 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
         <Button 
           variant="ghost" 
           className="w-full justify-start h-11 hover:bg-destructive/10 hover:text-destructive transition-all duration-200 group"
-          onClick={logout}
+          onClick={(e) => {
+            e.preventDefault();
+            logout();
+          }}
+          type="button"
         >
           <LogOut className="mr-3 h-4 w-4 text-muted-foreground group-hover:text-destructive transition-colors" />
           <span className="font-medium">Sign Out</span>
