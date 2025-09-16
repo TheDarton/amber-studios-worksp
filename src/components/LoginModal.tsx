@@ -28,15 +28,20 @@ export function LoginModal({ isOpen, onLogin }: LoginModalProps) {
       return;
     }
 
+    if (isLoading) {
+      return; // Prevent multiple submissions
+    }
+
     setIsLoading(true);
     try {
       const success = await onLogin(login, password, country);
       if (!success) {
         toast.error('INVALID CREDENTIALS OR INACTIVE ACCOUNT');
+        setIsLoading(false); // Reset loading state on failure
       }
+      // On success, parent component will handle the state transition
     } catch (error) {
       toast.error('LOGIN FAILED. PLEASE TRY AGAIN.');
-    } finally {
       setIsLoading(false);
     }
   };
