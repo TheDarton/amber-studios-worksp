@@ -24,7 +24,7 @@ export function LoginModal({ isOpen, onLogin }: LoginModalProps) {
     e.preventDefault();
     
     if (!login || !password || !country) {
-      toast.error('Please fill in all fields');
+      toast.error('PLEASE FILL IN ALL FIELDS');
       return;
     }
 
@@ -32,10 +32,10 @@ export function LoginModal({ isOpen, onLogin }: LoginModalProps) {
     try {
       const success = await onLogin(login, password, country);
       if (!success) {
-        toast.error('Invalid credentials or inactive account');
+        toast.error('INVALID CREDENTIALS OR INACTIVE ACCOUNT');
       }
     } catch (error) {
-      toast.error('Login failed. Please try again.');
+      toast.error('LOGIN FAILED. PLEASE TRY AGAIN.');
     } finally {
       setIsLoading(false);
     }
@@ -54,40 +54,40 @@ export function LoginModal({ isOpen, onLogin }: LoginModalProps) {
               className="h-24 w-auto object-contain"
             />
           </div>
-          <DialogTitle className="text-center text-2xl font-bold text-foreground">
-            Workspace
+          <DialogTitle className="text-center text-2xl font-bold text-foreground uppercase">
+            WORKSPACE
           </DialogTitle>
           <div className="text-center mt-4 space-y-2">
-            <p className="text-sm text-muted-foreground">
-              Management System for{' '}
+            <p className="text-sm text-muted-foreground uppercase">
+              MANAGEMENT SYSTEM FOR{' '}
               <a 
                 href="https://amber-studios.com" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="text-primary hover:text-accent underline underline-offset-2 transition-colors duration-200 font-medium"
+                className="text-muted-foreground underline underline-offset-2 transition-colors duration-200 font-medium"
               >
-                amber-studios.com
+                AMBER-STUDIOS.COM
               </a>{' '}
-              dealers and shift managers
+              DEALERS AND SHIFT MANAGERS
             </p>
           </div>
         </DialogHeader>
         
         <form onSubmit={handleSubmit} className="space-y-6 relative">
           <div className="space-y-2">
-            <Label htmlFor="country" className="text-sm font-medium">Country</Label>
+            <Label htmlFor="country" className="text-sm font-medium uppercase">COUNTRY</Label>
             <Select value={country} onValueChange={(value) => setCountry(value as Country)}>
               <SelectTrigger className="bg-background border-border focus:border-primary focus:ring-primary/20">
-                <SelectValue placeholder="Select your country" />
+                <SelectValue placeholder="SELECT YOUR COUNTRY" />
               </SelectTrigger>
               <SelectContent className="bg-card border-border shadow-lg">
                 {COUNTRIES.map((c) => (
                   <SelectItem 
                     key={c.value} 
                     value={c.value}
-                    className="hover:bg-primary/10 focus:bg-primary/10"
+                    className="hover:bg-primary/10 focus:bg-primary/10 uppercase"
                   >
-                    {c.label}
+                    {c.label.toUpperCase()}
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -95,26 +95,26 @@ export function LoginModal({ isOpen, onLogin }: LoginModalProps) {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="login" className="text-sm font-medium">Login</Label>
+            <Label htmlFor="login" className="text-sm font-medium uppercase">LOGIN</Label>
             <Input
               id="login"
               type="text"
               value={login}
               onChange={(e) => setLogin(e.target.value)}
-              placeholder="Enter your login"
+              placeholder="ENTER YOUR LOGIN"
               className="bg-background border-border focus:border-primary focus:ring-primary/20"
               required
             />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="password" className="text-sm font-medium">Password</Label>
+            <Label htmlFor="password" className="text-sm font-medium uppercase">PASSWORD</Label>
             <Input
               id="password"
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="Enter your password"
+              placeholder="ENTER YOUR PASSWORD"
               className="bg-background border-border focus:border-primary focus:ring-primary/20"
               required
             />
@@ -122,16 +122,16 @@ export function LoginModal({ isOpen, onLogin }: LoginModalProps) {
 
           <Button 
             type="submit" 
-            className="w-full h-11 bg-primary hover:bg-primary/90 text-primary-foreground font-medium shadow-lg hover:shadow-xl transition-all duration-200" 
+            className="w-full h-11 bg-primary hover:bg-primary/90 text-primary-foreground font-medium shadow-lg hover:shadow-xl transition-all duration-200 uppercase" 
             disabled={isLoading}
           >
             {isLoading ? (
               <div className="flex items-center space-x-2">
                 <div className="w-4 h-4 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full animate-spin" />
-                <span>Signing in...</span>
+                <span>SIGNING IN...</span>
               </div>
             ) : (
-              'Sign In'
+              'SIGN IN'
             )}
           </Button>
         </form>

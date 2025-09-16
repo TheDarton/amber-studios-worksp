@@ -11,26 +11,26 @@ export function AdminPanel() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold text-foreground">Admin Panel</h1>
+        <h1 className="text-3xl font-bold text-foreground uppercase">ADMIN PANEL</h1>
       </div>
 
       <Tabs defaultValue="users" className="space-y-6">
         <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="users" className="flex items-center gap-2">
             <Users size={16} />
-            <span className="hidden sm:inline">Users</span>
+            <span className="hidden sm:inline uppercase">USERS</span>
           </TabsTrigger>
           <TabsTrigger value="csv" className="flex items-center gap-2">
             <Upload size={16} />
-            <span className="hidden sm:inline">CSV Import</span>
+            <span className="hidden sm:inline uppercase">CSV IMPORT</span>
           </TabsTrigger>
           <TabsTrigger value="audit" className="flex items-center gap-2">
             <FileText size={16} />
-            <span className="hidden sm:inline">Audit Logs</span>
+            <span className="hidden sm:inline uppercase">AUDIT LOGS</span>
           </TabsTrigger>
           <TabsTrigger value="settings" className="flex items-center gap-2">
             <Gear size={16} />
-            <span className="hidden sm:inline">Settings</span>
+            <span className="hidden sm:inline uppercase">SETTINGS</span>
           </TabsTrigger>
         </TabsList>
 
@@ -49,11 +49,11 @@ export function AdminPanel() {
         <TabsContent value="settings">
           <Card>
             <CardHeader>
-              <CardTitle>System Settings</CardTitle>
+              <CardTitle className="uppercase">SYSTEM SETTINGS</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-muted-foreground">
-                System configuration options will be available here.
+              <p className="text-muted-foreground uppercase">
+                SYSTEM CONFIGURATION OPTIONS WILL BE AVAILABLE HERE.
               </p>
             </CardContent>
           </Card>

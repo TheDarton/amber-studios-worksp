@@ -8,8 +8,8 @@
 }
 
 :root {
-  /* Amber Studios Brand Colors - Professional Light Theme */
-  --background: oklch(0.98 0.005 270); /* Clean white background */
+  /* Amber Studios Brand Colors - White Background with Orange Primary */
+  --background: oklch(1.0 0.0 0); /* Pure white background */
   --foreground: oklch(0.15 0.02 270); /* Dark text */
   
   --card: oklch(1.0 0.0 0); /* Pure white cards */
@@ -17,26 +17,26 @@
   --popover: oklch(1.0 0.0 0);
   --popover-foreground: oklch(0.15 0.02 270);
   
-  /* Primary: Brand Violet #4F06A7 */
-  --primary: oklch(0.35 0.22 285);
-  --primary-foreground: oklch(1.0 0.0 0); /* Pure white text on violet */
+  /* Primary: Brand Orange #FFA500 */
+  --primary: oklch(0.74 0.15 70);
+  --primary-foreground: oklch(0.15 0.02 270); /* Dark text on orange */
   
   --secondary: oklch(0.96 0.01 270);
   --secondary-foreground: oklch(0.15 0.02 270);
   
-  --muted: oklch(0.95 0.01 270);
+  --muted: oklch(0.97 0.005 270);
   --muted-foreground: oklch(0.45 0.03 270);
   
-  /* Accent: Brand Orange #FFA500 */
-  --accent: oklch(0.74 0.15 70);
-  --accent-foreground: oklch(0.15 0.02 270); /* Dark text on orange */
+  /* Accent: Brand Violet #4F06A7 (as accent) */
+  --accent: oklch(0.35 0.22 285);
+  --accent-foreground: oklch(1.0 0.0 0); /* White text on violet */
   
   --destructive: oklch(0.62 0.25 27);
   --destructive-foreground: oklch(0.98 0.005 270);
   
   --border: oklch(0.90 0.01 270);
-  --input: oklch(0.95 0.01 270);
-  --ring: oklch(0.35 0.22 285); /* Primary violet for focus */
+  --input: oklch(0.97 0.005 270);
+  --ring: oklch(0.74 0.15 70); /* Orange for focus */
   
   --radius: 0.75rem;
 }
@@ -74,7 +74,7 @@
 
 body {
   font-family: var(--font-family-host);
-  background: linear-gradient(135deg, oklch(0.98 0.005 270) 0%, oklch(0.96 0.01 270) 50%, oklch(0.98 0.005 270) 100%);
+  background: oklch(1.0 0.0 0); /* Pure white background */
   background-attachment: fixed;
 }
 

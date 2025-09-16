@@ -33,49 +33,49 @@ export function Navigation({ currentPage, onNavigate, onLogout }: NavigationProp
     const allItems = [
       { 
         id: 'schedules', 
-        label: 'Schedules', 
+        label: 'SCHEDULES', 
         icon: Calendar,
         roles: ['admin', 'sm', 'dealer', 'operation']
       },
       { 
         id: 'mistakes', 
-        label: 'Mistake Statistics', 
+        label: 'MISTAKE STATISTICS', 
         icon: BarChart3,
         roles: ['admin', 'sm', 'dealer', 'operation']
       },
       { 
         id: 'daily-mistakes', 
-        label: 'Daily Mistakes', 
+        label: 'DAILY MISTAKES', 
         icon: AlertTriangle,
         roles: ['admin', 'sm', 'dealer', 'operation']
       },
       { 
         id: 'training', 
-        label: 'Training Academy', 
+        label: 'TRAINING ACADEMY', 
         icon: BookOpen,
         roles: ['admin', 'sm', 'dealer', 'operation']
       },
       { 
         id: 'news', 
-        label: 'News & Updates', 
+        label: 'NEWS & UPDATES', 
         icon: Newspaper,
         roles: ['admin', 'sm', 'operation'] // Dealers don't see news page
       },
       { 
         id: 'request-schedule', 
-        label: 'Request Schedule', 
+        label: 'REQUEST SCHEDULE', 
         icon: ClipboardList,
         roles: ['admin', 'sm', 'dealer', 'operation']
       },
       { 
         id: 'handover', 
-        label: 'Handover/Takeover', 
+        label: 'HANDOVER/TAKEOVER', 
         icon: ArrowLeftRight,
         roles: ['admin', 'sm', 'operation'] // Only SM and Operation handle handovers
       },
       { 
         id: 'admin', 
-        label: 'Admin Panel', 
+        label: 'ADMIN PANEL', 
         icon: Settings,
         roles: ['admin'] // Only admins see admin panel
       },
@@ -87,9 +87,9 @@ export function Navigation({ currentPage, onNavigate, onLogout }: NavigationProp
   const availableItems = getAvailableNavItems();
 
   const NavContent = ({ onItemClick }: { onItemClick?: () => void }) => (
-    <div className="flex flex-col h-full bg-card/50 backdrop-blur-xl border-r border-border/50">
+    <div className="flex flex-col h-full bg-card border-r border-border">
       {/* Header */}
-      <div className="p-6 bg-gradient-to-r from-primary/10 to-accent/10 border-b border-border/50">
+      <div className="p-6 bg-gradient-to-r from-primary/10 to-accent/10 border-b border-border">
         <div className="flex items-center space-x-3 mb-3">
           <img 
             src={amberLogo} 
@@ -105,10 +105,10 @@ export function Navigation({ currentPage, onNavigate, onLogout }: NavigationProp
             }
           </p>
           <div className="flex items-center space-x-2">
-            <span className="px-2 py-1 text-xs bg-primary/20 text-primary rounded-full font-medium capitalize">
+            <span className="px-2 py-1 text-xs bg-primary/20 text-primary rounded-full font-medium uppercase">
               {user.role.replace('_', ' ')}
             </span>
-            <span className="px-2 py-1 text-xs bg-accent/20 text-accent rounded-full font-medium">
+            <span className="px-2 py-1 text-xs bg-accent/20 text-accent rounded-full font-medium uppercase">
               {user.country}
             </span>
           </div>
@@ -126,7 +126,7 @@ export function Navigation({ currentPage, onNavigate, onLogout }: NavigationProp
               className={`w-full justify-start h-11 transition-all duration-200 group ${
                 isActive 
                   ? 'bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg' 
-                  : 'bg-secondary text-secondary-foreground hover:bg-accent hover:text-accent-foreground'
+                  : 'bg-secondary text-secondary-foreground hover:bg-primary hover:text-primary-foreground'
               }`}
               onClick={() => {
                 onNavigate(item.id);
@@ -134,9 +134,9 @@ export function Navigation({ currentPage, onNavigate, onLogout }: NavigationProp
               }}
             >
               <Icon className={`mr-3 h-4 w-4 transition-all duration-200 ${
-                isActive ? 'text-primary-foreground' : 'text-secondary-foreground group-hover:text-accent-foreground'
+                isActive ? 'text-primary-foreground' : 'text-secondary-foreground group-hover:text-primary-foreground'
               }`} />
-              <span className="font-medium">{item.label}</span>
+              <span className="font-medium uppercase">{item.label}</span>
               {isActive && (
                 <div className="ml-auto w-1 h-1 bg-primary-foreground rounded-full animate-pulse" />
               )}
@@ -145,7 +145,7 @@ export function Navigation({ currentPage, onNavigate, onLogout }: NavigationProp
         })}
       </nav>
       
-      <Separator className="bg-border/50" />
+      <Separator className="bg-border" />
       
       {/* Footer Actions */}
       <div className="p-4 space-y-1 bg-muted/30">
@@ -158,7 +158,7 @@ export function Navigation({ currentPage, onNavigate, onLogout }: NavigationProp
           type="button"
         >
           <LogOut className="mr-3 h-4 w-4 text-destructive-foreground transition-colors" />
-          <span className="font-medium">Sign Out</span>
+          <span className="font-medium uppercase">SIGN OUT</span>
         </Button>
       </div>
     </div>
@@ -173,12 +173,12 @@ export function Navigation({ currentPage, onNavigate, onLogout }: NavigationProp
             <Button 
               variant="outline" 
               size="icon" 
-              className="fixed top-4 left-4 z-50 bg-card/80 backdrop-blur-sm border-border/50 shadow-lg hover:shadow-xl transition-all duration-200"
+              className="fixed top-4 left-4 z-50 bg-card border-border shadow-lg hover:shadow-xl transition-all duration-200"
             >
               <Menu className="h-5 w-5" />
             </Button>
           </SheetTrigger>
-          <SheetContent side="left" className="w-80 p-0 bg-card/95 backdrop-blur-xl">
+          <SheetContent side="left" className="w-80 p-0 bg-card">
             <NavContent onItemClick={() => {}} />
           </SheetContent>
         </Sheet>

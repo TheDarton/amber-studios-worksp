@@ -22,13 +22,13 @@ export function CSVImport() {
     if (file && file.type === 'text/csv') {
       setSelectedFile(file);
     } else {
-      toast.error('Please select a valid CSV file');
+      toast.error('PLEASE SELECT A VALID CSV FILE');
     }
   };
 
   const handleUpload = () => {
     if (!selectedFile) {
-      toast.error('Please select a file to upload');
+      toast.error('PLEASE SELECT A FILE TO UPLOAD');
       return;
     }
 
