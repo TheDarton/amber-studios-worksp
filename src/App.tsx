@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Toaster } from '@/components/ui/sonner';
 import { LoginModal } from '@/components/LoginModal';
 import { Navigation } from '@/components/Navigation';
@@ -9,45 +9,18 @@ import { Country } from '@/types';
 function App() {
   const { user, isAuthenticated, login, logout } = useAuth();
   const [currentPage, setCurrentPage] = useState('welcome');
-  const [isLoading, setIsLoading] = useState(false);
-  const [isInitialized, setIsInitialized] = useState(false);
-
-  // Initialize the app state
-  useEffect(() => {
-    // Give some time for auth to initialize
-    const timer = setTimeout(() => {
-      setIsInitialized(true);
-    }, 100);
-    return () => clearTimeout(timer);
-  }, []);
 
   const handleLogout = () => {
     setCurrentPage('welcome');
-    setIsInitialized(false);
     logout();
-    // Re-initialize after logout
-    setTimeout(() => {
-      setIsInitialized(true);
-    }, 100);
   };
 
   const handleLogin = async (loginValue: string, password: string, country: Country) => {
-    setIsLoading(true);
-    try {
-      const success = await login(loginValue, password, country);
-      if (success) {
-        setCurrentPage('welcome');
-        // Give time for user data to be set
-        setTimeout(() => {
-          setIsInitialized(true);
-        }, 150);
-      }
-      return success;
-    } catch (error) {
-      return false;
-    } finally {
-      setIsLoading(false);
+    const success = await login(loginValue, password, country);
+    if (success) {
+      setCurrentPage('welcome');
     }
+    return success;
   };
 
   const renderPage = () => {
@@ -89,20 +62,8 @@ function App() {
     }
   };
 
-  // Show loading while processing login
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <div className="text-center">
-          <div className="w-8 h-8 border-2 border-primary/30 border-t-primary rounded-full animate-spin mx-auto mb-4" />
-          <p className="text-muted-foreground uppercase">SIGNING IN...</p>
-        </div>
-      </div>
-    );
-  }
-
-  // Show login if not authenticated or not yet initialized
-  if (!isAuthenticated || !user || !isInitialized) {
+  // Show login if not authenticated
+  if (!isAuthenticated || !user) {
     return (
       <div className="min-h-screen bg-background">
         <LoginModal isOpen={true} onLogin={handleLogin} />

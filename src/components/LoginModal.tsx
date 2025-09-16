@@ -37,11 +37,11 @@ export function LoginModal({ isOpen, onLogin }: LoginModalProps) {
       const success = await onLogin(login, password, country);
       if (!success) {
         toast.error('INVALID CREDENTIALS OR INACTIVE ACCOUNT');
-        setIsLoading(false); // Reset loading state on failure
       }
-      // On success, parent component will handle the state transition
+      // Always reset loading state
     } catch (error) {
       toast.error('LOGIN FAILED. PLEASE TRY AGAIN.');
+    } finally {
       setIsLoading(false);
     }
   };

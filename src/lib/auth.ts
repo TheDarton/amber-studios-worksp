@@ -23,8 +23,6 @@ export function canAccessCSV(userRole: UserRole, csvType: string): boolean {
 export class AuthService {
   static async login(login: string, password: string, country: Country): Promise<User | null> {
     try {
-      // Add small delay to simulate real authentication
-      await new Promise(resolve => setTimeout(resolve, 500));
       
       // First check if it's admin credentials
       if (login === 'admin' && password === 'admin') {
