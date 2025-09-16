@@ -162,7 +162,7 @@ export function Navigation({ currentPage, onNavigate, onLogout }: NavigationProp
           <img 
             src={amberLogo} 
             alt="Amber Studios" 
-            className="h-8 w-auto object-contain"
+            className="h-14 w-auto object-contain"
           />
         </div>
         <div className="space-y-1">
