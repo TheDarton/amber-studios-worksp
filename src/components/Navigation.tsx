@@ -14,30 +14,23 @@ import {
   Clipboard as ClipboardList, 
   ArrowsLeftRight as ArrowLeftRight,
   Gear as Settings,
-  SignOut as LogOut,
-  User,
-  House
+  SignOut as LogOut
 } from '@phosphor-icons/react';
 import amberLogo from '@/assets/images/amber-studios-logo.png';
 
 interface NavigationProps {
   currentPage: string;
   onNavigate: (page: string) => void;
+  onLogout: () => void;
 }
 
-export function Navigation({ currentPage, onNavigate }: NavigationProps) {
-  const { user, logout } = useAuth();
+export function Navigation({ currentPage, onNavigate, onLogout }: NavigationProps) {
+  const { user } = useAuth();
   
   if (!user) return null;
 
   const getAvailableNavItems = () => {
     const allItems = [
-      { 
-        id: 'dashboard', 
-        label: 'Dashboard', 
-        icon: House,
-        roles: ['admin', 'sm', 'dealer', 'operation']
-      },
       { 
         id: 'schedules', 
         label: 'Schedules', 
@@ -130,11 +123,10 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
           return (
             <Button
               key={item.id}
-              variant={isActive ? 'secondary' : 'ghost'}
               className={`w-full justify-start h-11 transition-all duration-200 group ${
                 isActive 
-                  ? 'bg-primary/15 text-primary hover:bg-primary/20 border border-primary/30 shadow-lg shadow-primary/10' 
-                  : 'hover:bg-secondary/80 hover:text-foreground hover:shadow-md'
+                  ? 'bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg' 
+                  : 'bg-secondary text-secondary-foreground hover:bg-accent hover:text-accent-foreground'
               }`}
               onClick={() => {
                 onNavigate(item.id);
@@ -142,11 +134,11 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
               }}
             >
               <Icon className={`mr-3 h-4 w-4 transition-all duration-200 ${
-                isActive ? 'text-primary' : 'text-muted-foreground group-hover:text-foreground'
+                isActive ? 'text-primary-foreground' : 'text-secondary-foreground group-hover:text-accent-foreground'
               }`} />
               <span className="font-medium">{item.label}</span>
               {isActive && (
-                <div className="ml-auto w-1 h-1 bg-primary rounded-full animate-pulse" />
+                <div className="ml-auto w-1 h-1 bg-primary-foreground rounded-full animate-pulse" />
               )}
             </Button>
           );
@@ -158,22 +150,14 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
       {/* Footer Actions */}
       <div className="p-4 space-y-1 bg-muted/30">
         <Button 
-          variant="ghost" 
-          className="w-full justify-start h-11 hover:bg-secondary/80 transition-all duration-200 group"
-        >
-          <User className="mr-3 h-4 w-4 text-muted-foreground group-hover:text-foreground transition-colors" />
-          <span className="font-medium">Profile</span>
-        </Button>
-        <Button 
-          variant="ghost" 
-          className="w-full justify-start h-11 hover:bg-destructive/10 hover:text-destructive transition-all duration-200 group"
+          className="w-full justify-start h-11 bg-destructive text-destructive-foreground hover:bg-destructive/90 transition-all duration-200 group"
           onClick={(e) => {
             e.preventDefault();
-            logout();
+            onLogout();
           }}
           type="button"
         >
-          <LogOut className="mr-3 h-4 w-4 text-muted-foreground group-hover:text-destructive transition-colors" />
+          <LogOut className="mr-3 h-4 w-4 text-destructive-foreground transition-colors" />
           <span className="font-medium">Sign Out</span>
         </Button>
       </div>

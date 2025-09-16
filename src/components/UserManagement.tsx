@@ -136,7 +136,7 @@ export function UserManagement() {
           <CardTitle>User Management</CardTitle>
           <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
             <DialogTrigger asChild>
-              <Button className="flex items-center gap-2">
+              <Button className="flex items-center gap-2 bg-primary text-primary-foreground hover:bg-primary/90">
                 <Plus size={16} />
                 Create User
               </Button>
@@ -206,7 +206,7 @@ export function UserManagement() {
                   </Select>
                 </div>
                 
-                <Button onClick={handleCreateUser} className="w-full">
+                <Button onClick={handleCreateUser} className="w-full bg-primary text-primary-foreground hover:bg-primary/90">
                   Create User
                 </Button>
               </div>
@@ -259,25 +259,23 @@ export function UserManagement() {
                       <TableCell className="text-right">
                         <div className="flex items-center justify-end gap-2">
                           <Button
-                            variant="outline"
+                            className="bg-secondary text-secondary-foreground hover:bg-accent hover:text-accent-foreground"
                             size="sm"
                             onClick={() => handleResetPassword(user.id)}
-                            className="flex items-center gap-1"
                           >
                             <Key size={14} />
                           </Button>
                           <Button
-                            variant="outline"
+                            className="bg-accent text-accent-foreground hover:bg-accent/90"
                             size="sm"
                             onClick={() => handleToggleStatus(user.id)}
                           >
                             {user.isActive ? 'Deactivate' : 'Activate'}
                           </Button>
                           <Button
-                            variant="destructive"
+                            className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
                             size="sm"
                             onClick={() => handleDeleteUser(user.id)}
-                            className="flex items-center gap-1"
                           >
                             <Trash size={14} />
                           </Button>
