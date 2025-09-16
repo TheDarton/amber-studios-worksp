@@ -9,6 +9,17 @@ import { Country } from '@/types';
 function App() {
   const { user, isAuthenticated, login, logout } = useAuth();
   const [currentPage, setCurrentPage] = useState('welcome');
+  const [isInitialized, setIsInitialized] = useState(false);
+
+  // Initialize the app state
+  useEffect(() => {
+    // Small delay to ensure auth state is properly loaded
+    const timer = setTimeout(() => {
+      setIsInitialized(true);
+    }, 100);
+    
+    return () => clearTimeout(timer);
+  }, []);
 
   // Reset page when user logs out
   const handleLogout = () => {
@@ -63,7 +74,20 @@ function App() {
     }
   };
 
-  if (!isAuthenticated) {
+  // Show loading if not initialized yet
+  if (!isInitialized) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-8 h-8 border-2 border-primary/30 border-t-primary rounded-full animate-spin mx-auto mb-4" />
+          <p className="text-muted-foreground uppercase">LOADING...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Show login if not authenticated
+  if (!isAuthenticated || !user) {
     return (
       <>
         <LoginModal isOpen={true} onLogin={handleLogin} />
@@ -72,9 +96,14 @@ function App() {
     );
   }
 
+  // Authenticated user with navigation
   return (
     <div className="min-h-screen bg-background">
-      <Navigation currentPage={currentPage} onNavigate={setCurrentPage} onLogout={handleLogout} />
+      <Navigation 
+        currentPage={currentPage} 
+        onNavigate={setCurrentPage} 
+        onLogout={handleLogout}
+      />
       
       <main className="md:ml-80 min-h-screen">
         <div className="container mx-auto p-4 md:p-8 pt-16 md:pt-8">

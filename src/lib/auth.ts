@@ -41,6 +41,17 @@ export class AuthService {
         return adminUser;
       }
 
+      // Check for test users (for demo purposes)
+      const testUsers = this.getTestUsers(country);
+      const testUser = testUsers.find(u => u.login === login && password === 'test');
+      if (testUser) {
+        return {
+          ...testUser,
+          lastLogin: new Date(),
+          updatedAt: new Date()
+        };
+      }
+
       // Check against created users (in real app, this would be from database)
       const users = this.getStoredUsers(country);
       const user = users.find(u => u.login === login && u.isActive);
@@ -60,6 +71,50 @@ export class AuthService {
       console.error('Login error:', error);
       return null;
     }
+  }
+
+  static getTestUsers(country: Country): User[] {
+    return [
+      {
+        id: `dealer-${country}`,
+        login: 'dealer',
+        email: `dealer@amber-studios-${country}.com`,
+        firstName: 'John',
+        lastName: 'Dealer',
+        role: 'dealer',
+        country,
+        isActive: true,
+        lastLogin: new Date(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        id: `sm-${country}`,
+        login: 'sm',
+        email: `sm@amber-studios-${country}.com`,
+        firstName: 'Jane',
+        lastName: 'Manager',
+        role: 'sm',
+        country,
+        isActive: true,
+        lastLogin: new Date(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      },
+      {
+        id: `operation-${country}`,
+        login: 'operation',
+        email: `operation@amber-studios-${country}.com`,
+        firstName: 'Mike',
+        lastName: 'Operations',
+        role: 'operation',
+        country,
+        isActive: true,
+        lastLogin: new Date(),
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      }
+    ];
   }
 
   static getStoredUsers(country: Country): User[] {

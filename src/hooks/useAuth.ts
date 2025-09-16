@@ -10,16 +10,22 @@ export function useAuth() {
   });
 
   const login = async (login: string, password: string, country: Country): Promise<boolean> => {
-    const user = await AuthService.login(login, password, country);
-    if (user) {
-      setAuthState({
-        user,
-        isAuthenticated: true,
-        country,
-      });
-      return true;
+    try {
+      const user = await AuthService.login(login, password, country);
+      if (user) {
+        const newAuthState = {
+          user,
+          isAuthenticated: true,
+          country,
+        };
+        setAuthState(newAuthState);
+        return true;
+      }
+      return false;
+    } catch (error) {
+      console.error('Login error:', error);
+      return false;
     }
-    return false;
   };
 
   const logout = () => {
@@ -37,6 +43,9 @@ export function useAuth() {
       user,
     }));
   };
+
+  // Debug logging
+  // console.log('Auth state:', authState);
 
   return {
     ...authState,

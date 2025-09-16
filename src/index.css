@@ -8,8 +8,8 @@
 }
 
 :root {
-  /* Amber Studios Brand Colors - White Background with Orange Primary */
-  --background: oklch(1.0 0.0 0); /* Pure white background */
+  /* Amber Studios Brand Colors - Light gradient background with Orange Primary */
+  --background: oklch(0.98 0.01 45); /* Very light warm background */
   --foreground: oklch(0.15 0.02 270); /* Dark text */
   
   --card: oklch(1.0 0.0 0); /* Pure white cards */
@@ -74,8 +74,9 @@
 
 body {
   font-family: var(--font-family-host);
-  background: oklch(1.0 0.0 0); /* Pure white background */
+  background: linear-gradient(135deg, oklch(0.985 0.005 45) 0%, oklch(0.98 0.008 70) 50%, oklch(0.985 0.003 285) 100%);
   background-attachment: fixed;
+  min-height: 100vh;
 }
 
 /* Custom scrollbar for light theme */

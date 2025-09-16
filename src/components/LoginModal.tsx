@@ -58,13 +58,13 @@ export function LoginModal({ isOpen, onLogin }: LoginModalProps) {
             WORKSPACE
           </DialogTitle>
           <div className="text-center mt-4 space-y-2">
-            <p className="text-sm text-muted-foreground uppercase">
+            <p className="text-sm text-muted-foreground uppercase font-bold">
               MANAGEMENT SYSTEM FOR{' '}
               <a 
                 href="https://amber-studios.com" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="text-muted-foreground underline underline-offset-2 transition-colors duration-200 font-medium"
+                className="text-muted-foreground underline underline-offset-2 transition-colors duration-200 font-bold"
               >
                 AMBER-STUDIOS.COM
               </a>{' '}
@@ -85,7 +85,7 @@ export function LoginModal({ isOpen, onLogin }: LoginModalProps) {
                   <SelectItem 
                     key={c.value} 
                     value={c.value}
-                    className="hover:bg-primary/10 focus:bg-primary/10 uppercase"
+                    className="hover:bg-primary/10 focus:bg-primary/10 hover:text-foreground focus:text-foreground uppercase"
                   >
                     {c.label.toUpperCase()}
                   </SelectItem>
