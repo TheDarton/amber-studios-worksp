@@ -63,7 +63,7 @@ function App() {
   };
 
   // Show login if not authenticated
-  if (!isAuthenticated || !user) {
+  if (!isAuthenticated) {
     return (
       <div className="min-h-screen bg-background">
         <LoginModal isOpen={true} onLogin={handleLogin} />
