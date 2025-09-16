@@ -47,7 +47,7 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-background/80">
+    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/30">
       <Navigation currentPage={currentPage} onNavigate={setCurrentPage} />
       
       <main className="md:ml-80 min-h-screen">

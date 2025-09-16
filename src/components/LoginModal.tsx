@@ -44,8 +44,8 @@ export function LoginModal({ isOpen, onLogin }: LoginModalProps) {
 
   return (
     <Dialog open={isOpen}>
-      <DialogContent className="sm:max-w-md bg-card/95 backdrop-blur-xl border-border/50">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-accent/5 rounded-lg" />
+      <DialogContent className="sm:max-w-md bg-card border-border shadow-2xl">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/3 to-accent/3 rounded-lg" />
         
         <DialogHeader className="relative">
           <div className="flex items-center justify-center mb-6">
@@ -60,7 +60,15 @@ export function LoginModal({ isOpen, onLogin }: LoginModalProps) {
           </DialogTitle>
           <div className="text-center mt-4 space-y-2">
             <p className="text-sm text-muted-foreground">
-              Shift Management System for amber-studios.com
+              Shift Management System for{' '}
+              <a 
+                href="https://amber-studios.com" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-primary hover:text-accent underline underline-offset-2 transition-colors duration-200 font-medium"
+              >
+                amber-studios.com
+              </a>
             </p>
             <div className="flex items-center justify-center space-x-6 mt-3">
               <div className="flex items-center space-x-2 text-xs text-muted-foreground">
@@ -83,10 +91,10 @@ export function LoginModal({ isOpen, onLogin }: LoginModalProps) {
           <div className="space-y-2">
             <Label htmlFor="country" className="text-sm font-medium">Country</Label>
             <Select value={country} onValueChange={(value) => setCountry(value as Country)}>
-              <SelectTrigger className="bg-background/50 border-border/50 focus:border-primary/50 focus:ring-primary/20">
+              <SelectTrigger className="bg-background border-border focus:border-primary focus:ring-primary/20">
                 <SelectValue placeholder="Select your country" />
               </SelectTrigger>
-              <SelectContent className="bg-card/95 backdrop-blur-xl border-border/50">
+              <SelectContent className="bg-card border-border shadow-lg">
                 {COUNTRIES.map((c) => (
                   <SelectItem 
                     key={c.value} 
@@ -108,7 +116,7 @@ export function LoginModal({ isOpen, onLogin }: LoginModalProps) {
               value={login}
               onChange={(e) => setLogin(e.target.value)}
               placeholder="Enter your login"
-              className="bg-background/50 border-border/50 focus:border-primary/50 focus:ring-primary/20"
+              className="bg-background border-border focus:border-primary focus:ring-primary/20"
               required
             />
           </div>
@@ -121,7 +129,7 @@ export function LoginModal({ isOpen, onLogin }: LoginModalProps) {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Enter your password"
-              className="bg-background/50 border-border/50 focus:border-primary/50 focus:ring-primary/20"
+              className="bg-background border-border focus:border-primary focus:ring-primary/20"
               required
             />
           </div>
