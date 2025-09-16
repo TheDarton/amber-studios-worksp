@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger } from '@/components/ui/dialog';
 import { Badge } from '@/components/ui/badge';
 import { Plus, Pencil, Trash, Key } from '@phosphor-icons/react';
 import { User, UserRole, Country } from '@/types';
@@ -142,9 +142,12 @@ export function UserManagement() {
                 CREATE USER
               </Button>
             </DialogTrigger>
-            <DialogContent className="max-w-md">
+            <DialogContent className="max-w-md" aria-describedby="create-user-description">
               <DialogHeader>
                 <DialogTitle className="uppercase">CREATE NEW USER</DialogTitle>
+                <DialogDescription id="create-user-description" className="sr-only">
+                  Create a new user account with login credentials and role assignment.
+                </DialogDescription>
               </DialogHeader>
               <div className="space-y-4">
                 {newUser.role !== 'operation' && (
