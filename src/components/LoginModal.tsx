@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { COUNTRIES } from '@/lib/constants';
 import { Country } from '@/types';
 import { toast } from 'sonner';
@@ -48,7 +48,7 @@ export function LoginModal({ isOpen, onLogin }: LoginModalProps) {
 
   return (
     <Dialog open={isOpen}>
-      <DialogContent className="sm:max-w-md bg-card border-border shadow-2xl">
+      <DialogContent className="sm:max-w-md bg-card border-border shadow-2xl" hideCloseButton>
         <div className="absolute inset-0 bg-gradient-to-br from-primary/3 to-accent/3 rounded-lg" />
         
         <DialogHeader className="relative">
@@ -62,7 +62,7 @@ export function LoginModal({ isOpen, onLogin }: LoginModalProps) {
           <DialogTitle className="text-center text-2xl font-bold text-foreground uppercase">
             WORKSPACE
           </DialogTitle>
-          <div className="text-center mt-4 space-y-2">
+          <DialogDescription className="text-center mt-4">
             <p className="text-sm text-muted-foreground uppercase font-bold">
               MANAGEMENT SYSTEM FOR{' '}
               <a 
@@ -75,7 +75,7 @@ export function LoginModal({ isOpen, onLogin }: LoginModalProps) {
               </a>{' '}
               DEALERS AND SHIFT MANAGERS
             </p>
-          </div>
+          </DialogDescription>
         </DialogHeader>
         
         <form onSubmit={handleSubmit} className="space-y-6 relative">
@@ -83,14 +83,14 @@ export function LoginModal({ isOpen, onLogin }: LoginModalProps) {
             <Label htmlFor="country" className="text-sm font-medium uppercase">COUNTRY</Label>
             <Select value={country} onValueChange={(value) => setCountry(value as Country)}>
               <SelectTrigger className="bg-background border-border focus:border-primary focus:ring-primary/20">
-                <SelectValue placeholder="SELECT YOUR COUNTRY" />
+                <SelectValue />
               </SelectTrigger>
               <SelectContent className="bg-card border-border shadow-lg">
                 {COUNTRIES.map((c) => (
                   <SelectItem 
                     key={c.value} 
                     value={c.value}
-                    className="hover:bg-primary/10 focus:bg-primary/10 hover:text-foreground focus:text-foreground uppercase"
+                    className="hover:bg-primary/10 focus:bg-primary/10 hover:text-foreground focus:text-foreground data-[highlighted]:bg-primary/10 data-[highlighted]:text-foreground uppercase cursor-pointer"
                   >
                     {c.label.toUpperCase()}
                   </SelectItem>
@@ -106,7 +106,6 @@ export function LoginModal({ isOpen, onLogin }: LoginModalProps) {
               type="text"
               value={login}
               onChange={(e) => setLogin(e.target.value)}
-              placeholder="ENTER YOUR LOGIN"
               className="bg-background border-border focus:border-primary focus:ring-primary/20"
               required
             />
@@ -119,7 +118,6 @@ export function LoginModal({ isOpen, onLogin }: LoginModalProps) {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              placeholder="ENTER YOUR PASSWORD"
               className="bg-background border-border focus:border-primary focus:ring-primary/20"
               required
             />

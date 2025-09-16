@@ -107,3 +107,15 @@ body {
   outline: 2px solid oklch(0.35 0.22 285);
   outline-offset: 2px;
 }
+
+/* Override select item hover state */
+[data-slot="select-item"]:hover,
+[data-slot="select-item"][data-highlighted] {
+  color: oklch(0.15 0.02 270) !important; /* Force dark text on hover */
+  background-color: oklch(0.74 0.15 70 / 0.1) !important; /* Light orange background */
+}
+
+[data-slot="select-item"]:focus {
+  color: oklch(0.15 0.02 270) !important; /* Force dark text on focus */
+  background-color: oklch(0.74 0.15 70 / 0.1) !important; /* Light orange background */
+}

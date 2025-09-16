@@ -9,55 +9,25 @@ import { Country } from '@/types';
 function App() {
   const { user, isAuthenticated, login, logout } = useAuth();
   const [currentPage, setCurrentPage] = useState('welcome');
-  const [isInitialized, setIsInitialized] = useState(false);
-  const [isLoggingIn, setIsLoggingIn] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  // Initialize the app state
-  useEffect(() => {
-    // Small delay to ensure auth state is properly loaded
-    const timer = setTimeout(() => {
-      setIsInitialized(true);
-    }, 100);
-    
-    return () => clearTimeout(timer);
-  }, []);
-
-  // Force re-render when authentication state changes
-  useEffect(() => {
-    if (isAuthenticated && user) {
-      // Small delay to ensure UI state is properly updated
-      const timer = setTimeout(() => {
-        setIsLoggingIn(false);
-      }, 200);
-      
-      return () => clearTimeout(timer);
-    }
-  }, [isAuthenticated, user]);
-
-  // Reset page when user logs out
   const handleLogout = () => {
+    setCurrentPage('welcome');
     logout();
-    setCurrentPage('welcome'); // Reset to welcome page
-    setIsLoggingIn(false); // Ensure login state is reset
   };
 
   const handleLogin = async (loginValue: string, password: string, country: Country) => {
-    setIsLoggingIn(true);
+    setIsLoading(true);
     try {
       const success = await login(loginValue, password, country);
       if (success) {
-        setCurrentPage('welcome'); // Reset to welcome page on login
-        // Small delay to ensure state is properly updated
-        setTimeout(() => {
-          setIsLoggingIn(false);
-        }, 100);
-      } else {
-        setIsLoggingIn(false);
+        setCurrentPage('welcome');
       }
       return success;
     } catch (error) {
-      setIsLoggingIn(false);
       return false;
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -100,15 +70,13 @@ function App() {
     }
   };
 
-  // Show loading if not initialized yet or logging in
-  if (!isInitialized || isLoggingIn) {
+  // Show loading while processing login
+  if (isLoading) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
           <div className="w-8 h-8 border-2 border-primary/30 border-t-primary rounded-full animate-spin mx-auto mb-4" />
-          <p className="text-muted-foreground uppercase">
-            {isLoggingIn ? 'SIGNING IN...' : 'LOADING...'}
-          </p>
+          <p className="text-muted-foreground uppercase">SIGNING IN...</p>
         </div>
       </div>
     );
@@ -117,10 +85,10 @@ function App() {
   // Show login if not authenticated
   if (!isAuthenticated || !user) {
     return (
-      <>
+      <div className="min-h-screen bg-background">
         <LoginModal isOpen={true} onLogin={handleLogin} />
         <Toaster />
-      </>
+      </div>
     );
   }
 
