@@ -48,7 +48,7 @@ export function LoginModal({ isOpen, onLogin }: LoginModalProps) {
 
   return (
     <Dialog open={isOpen}>
-      <DialogContent className="sm:max-w-md bg-card border-border shadow-2xl" hideCloseButton>
+      <DialogContent className="sm:max-w-md bg-card border-border shadow-2xl" hideCloseButton aria-describedby="login-description">
         <div className="absolute inset-0 bg-gradient-to-br from-primary/3 to-accent/3 rounded-lg" />
         
         <DialogHeader className="relative">
@@ -62,7 +62,7 @@ export function LoginModal({ isOpen, onLogin }: LoginModalProps) {
           <DialogTitle className="text-center text-2xl font-bold text-foreground uppercase">
             WORKSPACE
           </DialogTitle>
-          <DialogDescription className="text-center mt-4">
+          <DialogDescription id="login-description" className="text-center mt-4">
             <p className="text-sm text-muted-foreground uppercase font-bold">
               MANAGEMENT SYSTEM FOR{' '}
               <a 
@@ -82,7 +82,7 @@ export function LoginModal({ isOpen, onLogin }: LoginModalProps) {
           <div className="space-y-2">
             <Label htmlFor="country" className="text-sm font-medium uppercase">COUNTRY</Label>
             <Select value={country} onValueChange={(value) => setCountry(value as Country)}>
-              <SelectTrigger className="bg-background border-border focus:border-primary focus:ring-primary/20">
+              <SelectTrigger className="w-full h-10 bg-background border-border focus:border-primary focus:ring-primary/20">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent className="bg-card border-border shadow-lg">
@@ -106,7 +106,7 @@ export function LoginModal({ isOpen, onLogin }: LoginModalProps) {
               type="text"
               value={login}
               onChange={(e) => setLogin(e.target.value)}
-              className="bg-background border-border focus:border-primary focus:ring-primary/20"
+              className="w-full h-10 bg-background border-border focus:border-primary focus:ring-primary/20"
               required
             />
           </div>
@@ -118,7 +118,7 @@ export function LoginModal({ isOpen, onLogin }: LoginModalProps) {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="bg-background border-border focus:border-primary focus:ring-primary/20"
+              className="w-full h-10 bg-background border-border focus:border-primary focus:ring-primary/20"
               required
             />
           </div>
