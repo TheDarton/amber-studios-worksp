@@ -2,13 +2,14 @@ import { useState } from 'react';
 import { Toaster } from '@/components/ui/sonner';
 import { LoginModal } from '@/components/LoginModal';
 import { Navigation } from '@/components/Navigation';
+import { Dashboard } from '@/components/Dashboard';
 import { AdminPanel } from '@/components/AdminPanel';
 import { useAuth } from '@/hooks/useAuth';
 import { Country } from '@/types';
 
 function App() {
   const { user, isAuthenticated, login } = useAuth();
-  const [currentPage, setCurrentPage] = useState('schedules');
+  const [currentPage, setCurrentPage] = useState('dashboard');
 
   const handleLogin = async (loginValue: string, password: string, country: Country) => {
     return await login(loginValue, password, country);
@@ -16,24 +17,26 @@ function App() {
 
   const renderPage = () => {
     switch (currentPage) {
+      case 'dashboard':
+        return <Dashboard onNavigate={setCurrentPage} />;
       case 'schedules':
-        return <div className="p-6"><h1 className="text-2xl font-bold">Schedules</h1><p>Coming soon...</p></div>;
+        return <div className="p-6"><h1 className="text-2xl font-bold text-foreground">Schedules</h1><p className="text-muted-foreground">Coming soon...</p></div>;
       case 'mistakes':
-        return <div className="p-6"><h1 className="text-2xl font-bold">Mistake Statistics</h1><p>Coming soon...</p></div>;
+        return <div className="p-6"><h1 className="text-2xl font-bold text-foreground">Mistake Statistics</h1><p className="text-muted-foreground">Coming soon...</p></div>;
       case 'daily-mistakes':
-        return <div className="p-6"><h1 className="text-2xl font-bold">Daily Mistakes</h1><p>Coming soon...</p></div>;
+        return <div className="p-6"><h1 className="text-2xl font-bold text-foreground">Daily Mistakes</h1><p className="text-muted-foreground">Coming soon...</p></div>;
       case 'training':
-        return <div className="p-6"><h1 className="text-2xl font-bold">Training Academy</h1><p>Coming soon...</p></div>;
+        return <div className="p-6"><h1 className="text-2xl font-bold text-foreground">Training Academy</h1><p className="text-muted-foreground">Coming soon...</p></div>;
       case 'news':
-        return <div className="p-6"><h1 className="text-2xl font-bold">News & Updates</h1><p>Coming soon...</p></div>;
+        return <div className="p-6"><h1 className="text-2xl font-bold text-foreground">News & Updates</h1><p className="text-muted-foreground">Coming soon...</p></div>;
       case 'request-schedule':
-        return <div className="p-6"><h1 className="text-2xl font-bold">Request Schedule</h1><p>Coming soon...</p></div>;
+        return <div className="p-6"><h1 className="text-2xl font-bold text-foreground">Request Schedule</h1><p className="text-muted-foreground">Coming soon...</p></div>;
       case 'handover':
-        return <div className="p-6"><h1 className="text-2xl font-bold">Handover/Takeover</h1><p>Coming soon...</p></div>;
+        return <div className="p-6"><h1 className="text-2xl font-bold text-foreground">Handover/Takeover</h1><p className="text-muted-foreground">Coming soon...</p></div>;
       case 'admin':
         return <AdminPanel />;
       default:
-        return <div className="p-6"><h1 className="text-2xl font-bold">Schedules</h1><p>Coming soon...</p></div>;
+        return <Dashboard onNavigate={setCurrentPage} />;
     }
   };
 
@@ -47,7 +50,7 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/30">
+    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/50">
       <Navigation currentPage={currentPage} onNavigate={setCurrentPage} />
       
       <main className="md:ml-80 min-h-screen">

@@ -10,10 +10,15 @@ import {
   FileText,
   ClipboardText,
   Handshake,
-  Note
+  Note,
+  House
 } from '@phosphor-icons/react';
 
-export function Dashboard() {
+interface DashboardProps {
+  onNavigate?: (page: string) => void;
+}
+
+export function Dashboard({ onNavigate }: DashboardProps) {
   const { user } = useAuth();
   
   if (!user) return null;
@@ -24,42 +29,49 @@ export function Dashboard() {
         icon: Calendar, 
         label: 'Schedules', 
         description: 'View work schedules',
+        page: 'schedules',
         available: true 
       },
       { 
         icon: ChartBar, 
         label: 'Mistake Statistics', 
         description: 'Performance analytics',
+        page: 'mistakes',
         available: true 
       },
       { 
         icon: ClipboardText, 
         label: 'Daily Mistakes', 
         description: 'Daily error reports',
+        page: 'daily-mistakes',
         available: true 
       },
       { 
         icon: BookOpen, 
         label: 'Training Academy', 
         description: 'Learning resources',
+        page: 'training',
         available: user.role !== 'operation' 
       },
       { 
         icon: Note, 
         label: 'News & Updates', 
         description: 'Latest announcements',
+        page: 'news',
         available: user.role === 'sm' || user.role === 'operation' 
       },
       { 
         icon: Calendar, 
         label: 'Request Schedule', 
         description: 'Submit schedule requests',
+        page: 'request-schedule',
         available: true 
       },
       { 
         icon: Handshake, 
         label: 'Handover/Takeover', 
         description: 'Transfer records',
+        page: 'handover',
         available: true 
       }
     ];
@@ -70,12 +82,14 @@ export function Dashboard() {
           icon: Users, 
           label: 'User Management', 
           description: 'Manage users and permissions',
+          page: 'admin',
           available: true 
         },
         { 
           icon: FileText, 
           label: 'CSV Import', 
           description: 'Import data files',
+          page: 'admin',
           available: true 
         }
       );
@@ -93,7 +107,7 @@ export function Dashboard() {
         <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-accent/5 rounded-2xl" />
         <div className="relative p-6">
           <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
-            Welcome, {user.firstName}!
+            Welcome, {user.firstName || user.login}!
           </h1>
           <p className="text-muted-foreground mt-3 text-lg">
             Access your workspace tools and resources
@@ -126,6 +140,7 @@ export function Dashboard() {
                   key={index}
                   variant="outline" 
                   className="h-24 flex-col space-y-2 hover:bg-primary/10 hover:border-primary/30 transition-all duration-200 group text-left justify-start p-4"
+                  onClick={() => onNavigate?.(action.page)}
                 >
                   <div className="flex items-center space-x-3 w-full">
                     <Icon className="h-6 w-6 text-primary group-hover:scale-110 transition-transform flex-shrink-0" />

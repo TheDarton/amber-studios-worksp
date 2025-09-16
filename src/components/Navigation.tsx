@@ -15,7 +15,8 @@ import {
   ArrowsLeftRight as ArrowLeftRight,
   Gear as Settings,
   SignOut as LogOut,
-  User
+  User,
+  House
 } from '@phosphor-icons/react';
 import amberLogo from '@/assets/images/amber-studios-logo.png';
 
@@ -31,6 +32,12 @@ export function Navigation({ currentPage, onNavigate }: NavigationProps) {
 
   const getAvailableNavItems = () => {
     const allItems = [
+      { 
+        id: 'dashboard', 
+        label: 'Dashboard', 
+        icon: House,
+        roles: ['admin', 'sm', 'dealer', 'operation']
+      },
       { 
         id: 'schedules', 
         label: 'Schedules', 
