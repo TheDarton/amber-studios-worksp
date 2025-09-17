@@ -63,7 +63,7 @@ export function LoginModal({ isOpen, onLogin }: LoginModalProps) {
             WORKSPACE
           </DialogTitle>
           <DialogDescription id="login-description" className="text-center mt-4">
-            <p className="text-sm text-muted-foreground uppercase font-bold">
+            <p className="text-sm text-muted-foreground uppercase font-bold leading-tight">
               MANAGEMENT SYSTEM FOR{' '}
               <a 
                 href="https://amber-studios.com" 
@@ -72,8 +72,9 @@ export function LoginModal({ isOpen, onLogin }: LoginModalProps) {
                 className="text-muted-foreground underline underline-offset-2 transition-colors duration-200 font-bold"
               >
                 AMBER-STUDIOS.COM
-              </a>{' '}
-              DEALERS AND SHIFT MANAGERS
+              </a>
+              <br />
+              GAME PRESENTERS AND SHIFT MANAGERS
             </p>
           </DialogDescription>
         </DialogHeader>

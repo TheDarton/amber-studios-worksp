@@ -73,7 +73,8 @@
 }
 
 body {
-  font-family: var(--font-family-host);
+  font-family: 'Host Grotesk', var(--font-family-host);
+  font-variation-settings: "wght" 400;
   background: linear-gradient(135deg, oklch(0.985 0.005 45) 0%, oklch(0.98 0.008 70) 50%, oklch(0.985 0.003 285) 100%);
   background-attachment: fixed;
   min-height: 100vh;
