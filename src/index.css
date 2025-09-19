@@ -103,11 +103,7 @@ body {
   transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
 }
 
-/* Enhanced focus rings */
-:focus-visible {
-  outline: 2px solid oklch(0.35 0.22 285);
-  outline-offset: 2px;
-}
+/* Enhanced focus rings - removed from login screen */
 
 /* Override select item hover state */
 [data-slot="select-item"]:hover,

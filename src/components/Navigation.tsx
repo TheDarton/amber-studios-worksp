@@ -40,51 +40,51 @@ export function Navigation({ currentPage, onNavigate, onLogout }: NavigationProp
     const allItems = [
       { 
         id: 'schedules', 
-        label: 'SCHEDULES', 
+        label: 'Schedules', 
         icon: Calendar,
-        roles: ['admin', 'sm', 'dealer', 'operation']
+        roles: ['admin', 'global-admin', 'sm', 'dealer', 'operation']
       },
       { 
         id: 'mistakes', 
-        label: 'MISTAKE STATISTICS', 
+        label: 'Mistake Statistics', 
         icon: BarChart3,
-        roles: ['admin', 'sm', 'dealer', 'operation']
+        roles: ['admin', 'global-admin', 'sm', 'dealer', 'operation']
       },
       { 
         id: 'daily-mistakes', 
-        label: 'DAILY MISTAKES', 
+        label: 'Daily Mistakes', 
         icon: AlertTriangle,
-        roles: ['admin', 'sm', 'dealer', 'operation']
+        roles: ['admin', 'global-admin', 'sm', 'dealer', 'operation']
       },
       { 
         id: 'training', 
-        label: 'TRAINING ACADEMY', 
+        label: 'Training Academy', 
         icon: BookOpen,
-        roles: ['admin', 'sm', 'dealer', 'operation']
+        roles: ['admin', 'global-admin', 'sm', 'dealer', 'operation']
       },
       { 
         id: 'news', 
-        label: 'NEWS & UPDATES', 
+        label: 'News & Updates', 
         icon: Newspaper,
-        roles: ['admin', 'sm', 'operation'] // Dealers don't see news page
+        roles: ['admin', 'global-admin', 'sm', 'operation'] // Dealers don't see news page
       },
       { 
         id: 'request-schedule', 
-        label: 'REQUEST SCHEDULE', 
+        label: 'Request Schedule', 
         icon: ClipboardList,
-        roles: ['admin', 'sm', 'dealer', 'operation']
+        roles: ['admin', 'global-admin', 'sm', 'dealer', 'operation']
       },
       { 
         id: 'handover', 
-        label: 'HANDOVER/TAKEOVER', 
+        label: 'Handover/Takeover', 
         icon: ArrowLeftRight,
-        roles: ['admin', 'sm', 'operation'] // Only SM and Operation handle handovers
+        roles: ['admin', 'global-admin', 'sm', 'operation'] // Only SM and Operation handle handovers
       },
       { 
         id: 'admin', 
-        label: 'ADMIN PANEL', 
+        label: 'Admin Panel', 
         icon: Settings,
-        roles: ['admin'] // Only admins see admin panel
+        roles: ['admin', 'global-admin'] // Only admins see admin panel
       },
     ];
 
@@ -112,10 +112,10 @@ export function Navigation({ currentPage, onNavigate, onLogout }: NavigationProp
             }
           </p>
           <div className="flex items-center space-x-2">
-            <span className="px-2 py-1 text-xs bg-primary/20 text-primary rounded-full font-medium uppercase">
+            <span className="px-2 py-1 text-xs bg-primary/20 text-primary rounded-full font-medium">
               {currentUser.role.replace('_', ' ')}
             </span>
-            <span className="px-2 py-1 text-xs bg-accent/20 text-accent rounded-full font-medium uppercase">
+            <span className="px-2 py-1 text-xs bg-accent/20 text-accent rounded-full font-medium">
               {currentUser.country}
             </span>
           </div>
@@ -143,7 +143,7 @@ export function Navigation({ currentPage, onNavigate, onLogout }: NavigationProp
               <Icon className={`mr-3 h-4 w-4 transition-all duration-200 ${
                 isActive ? 'text-primary-foreground' : 'text-secondary-foreground group-hover:text-primary-foreground'
               }`} />
-              <span className="font-medium uppercase">{item.label}</span>
+              <span className="font-medium">{item.label}</span>
               {isActive && (
                 <div className="ml-auto w-1 h-1 bg-primary-foreground rounded-full animate-pulse" />
               )}
@@ -165,7 +165,7 @@ export function Navigation({ currentPage, onNavigate, onLogout }: NavigationProp
           type="button"
         >
           <LogOut className="mr-3 h-4 w-4 text-destructive-foreground transition-colors" />
-          <span className="font-medium uppercase">SIGN OUT</span>
+          <span className="font-medium">Sign Out</span>
         </Button>
       </div>
     </div>

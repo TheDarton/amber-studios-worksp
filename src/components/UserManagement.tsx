@@ -29,7 +29,7 @@ export function UserManagement() {
 
   const handleCreateUser = () => {
     if (!newUser.login || !newUser.password) {
-      toast.error('LOGIN AND PASSWORD ARE REQUIRED');
+      toast.error('Login and password are required');
       return;
     }
 
@@ -66,7 +66,7 @@ export function UserManagement() {
       password: ''
     });
     setIsCreateDialogOpen(false);
-    toast.success('USER CREATED SUCCESSFULLY');
+    toast.success('User created successfully');
   };
 
   const handleDeleteUser = (userId: string) => {
@@ -80,12 +80,12 @@ export function UserManagement() {
       }
       return updated;
     });
-    toast.success('USER DELETED SUCCESSFULLY');
+    toast.success('User deleted successfully');
   };
 
   const handleResetPassword = (userId: string) => {
     // In a real app, this would send a password reset email or generate a temporary password
-    toast.success('PASSWORD RESET LINK SENT TO USER');
+    toast.success('Password reset link sent to user');
   };
 
   const handleToggleStatus = (userId: string) => {
@@ -103,7 +103,7 @@ export function UserManagement() {
       }
       return updated;
     });
-    toast.success('USER STATUS UPDATED');
+    toast.success('User status updated');
   };
 
   const getRoleBadgeVariant = (role: UserRole) => {
@@ -125,27 +125,27 @@ export function UserManagement() {
   ];
 
   const roles = [
-    { value: 'dealer', label: 'DEALER' },
+    { value: 'dealer', label: 'Dealer' },
     { value: 'sm', label: 'SM' },
-    { value: 'operation', label: 'OPERATION' }
+    { value: 'operation', label: 'Operation' }
   ];
 
   return (
     <Card>
       <CardHeader>
         <div className="flex items-center justify-between">
-          <CardTitle className="uppercase">USER MANAGEMENT</CardTitle>
+          <CardTitle>User Management</CardTitle>
           <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
             <DialogTrigger asChild>
-              <Button className="flex items-center gap-2 bg-primary text-primary-foreground hover:bg-primary/90 uppercase">
+              <Button className="flex items-center gap-2 bg-primary text-primary-foreground hover:bg-primary/90">
                 <Plus size={16} />
-                CREATE USER
+                Create User
               </Button>
             </DialogTrigger>
-            <DialogContent className="max-w-md" aria-describedby="create-user-description">
+            <DialogContent className="max-w-md">
               <DialogHeader>
-                <DialogTitle className="uppercase">CREATE NEW USER</DialogTitle>
-                <DialogDescription id="create-user-description" className="sr-only">
+                <DialogTitle>Create New User</DialogTitle>
+                <DialogDescription>
                   Create a new user account with login credentials and role assignment.
                 </DialogDescription>
               </DialogHeader>
@@ -153,7 +153,7 @@ export function UserManagement() {
                 {newUser.role !== 'operation' && (
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label htmlFor="firstName" className="uppercase">NAME</Label>
+                      <Label htmlFor="firstName">Name</Label>
                       <Input
                         id="firstName"
                         value={newUser.firstName}
@@ -162,7 +162,7 @@ export function UserManagement() {
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="lastName" className="uppercase">SURNAME</Label>
+                      <Label htmlFor="lastName">Surname</Label>
                       <Input
                         id="lastName"
                         value={newUser.lastName}
@@ -174,7 +174,7 @@ export function UserManagement() {
                 )}
                 
                 <div className="space-y-2">
-                  <Label htmlFor="login" className="uppercase">LOGIN *</Label>
+                  <Label htmlFor="login">Login *</Label>
                   <Input
                     id="login"
                     value={newUser.login}
@@ -185,7 +185,7 @@ export function UserManagement() {
                 </div>
                 
                 <div className="space-y-2">
-                  <Label htmlFor="email" className="uppercase">EMAIL</Label>
+                  <Label htmlFor="email">Email</Label>
                   <Input
                     id="email"
                     type="email"
@@ -196,7 +196,7 @@ export function UserManagement() {
                 </div>
                 
                 <div className="space-y-2">
-                  <Label htmlFor="password" className="uppercase">INITIAL PASSWORD *</Label>
+                  <Label htmlFor="password">Initial Password *</Label>
                   <Input
                     id="password"
                     type="password"
@@ -208,7 +208,7 @@ export function UserManagement() {
                 </div>
                 
                 <div className="space-y-2">
-                  <Label className="uppercase">ROLE</Label>
+                  <Label>Role</Label>
                   <Select value={newUser.role} onValueChange={(value: UserRole) => setNewUser(prev => ({ ...prev, role: value }))}>
                     <SelectTrigger>
                       <SelectValue />
@@ -223,8 +223,8 @@ export function UserManagement() {
                   </Select>
                 </div>
                 
-                <Button onClick={handleCreateUser} className="w-full bg-primary text-primary-foreground hover:bg-primary/90 uppercase">
-                  CREATE USER
+                <Button onClick={handleCreateUser} className="w-full bg-primary text-primary-foreground hover:bg-primary/90">
+                  Create User
                 </Button>
               </div>
             </DialogContent>
@@ -234,21 +234,21 @@ export function UserManagement() {
       <CardContent>
         <div className="space-y-4">
           {!users || users.length === 0 ? (
-            <div className="text-center py-8 text-muted-foreground uppercase">
-              NO USERS CREATED YET. CLICK "CREATE USER" TO ADD THE FIRST USER.
+            <div className="text-center py-8 text-muted-foreground">
+              No users created yet. Click "Create User" to add the first user.
             </div>
           ) : (
             <div className="overflow-x-auto">
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="uppercase">NAME</TableHead>
-                    <TableHead className="uppercase">LOGIN</TableHead>
-                    <TableHead className="uppercase">EMAIL</TableHead>
-                    <TableHead className="uppercase">ROLE</TableHead>
-                    <TableHead className="uppercase">COUNTRY</TableHead>
-                    <TableHead className="uppercase">STATUS</TableHead>
-                    <TableHead className="text-right uppercase">ACTIONS</TableHead>
+                    <TableHead>Name</TableHead>
+                    <TableHead>Login</TableHead>
+                    <TableHead>Email</TableHead>
+                    <TableHead>Role</TableHead>
+                    <TableHead>Country</TableHead>
+                    <TableHead>Status</TableHead>
+                    <TableHead className="text-right">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -264,13 +264,13 @@ export function UserManagement() {
                       <TableCell>{user.email}</TableCell>
                       <TableCell>
                         <Badge variant={getRoleBadgeVariant(user.role)}>
-                          {user.role.toUpperCase()}
+                          {user.role}
                         </Badge>
                       </TableCell>
-                      <TableCell className="uppercase">{user.country}</TableCell>
+                      <TableCell>{user.country}</TableCell>
                       <TableCell>
                         <Badge variant={user.isActive ? 'default' : 'secondary'}>
-                          {user.isActive ? 'ACTIVE' : 'INACTIVE'}
+                          {user.isActive ? 'Active' : 'Inactive'}
                         </Badge>
                       </TableCell>
                       <TableCell className="text-right">
@@ -287,7 +287,7 @@ export function UserManagement() {
                             size="sm"
                             onClick={() => handleToggleStatus(user.id)}
                           >
-                            {user.isActive ? 'DEACTIVATE' : 'ACTIVATE'}
+                            {user.isActive ? 'Deactivate' : 'Activate'}
                           </Button>
                           <Button
                             className="bg-destructive text-destructive-foreground hover:bg-destructive/90"

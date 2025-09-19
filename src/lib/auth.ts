@@ -24,22 +24,53 @@ export class AuthService {
   static async login(login: string, password: string, country: Country): Promise<User | null> {
     try {
       
-      // First check if it's admin credentials
+      // Check for global admin (no prefix)
       if (login === 'admin' && password === 'admin') {
-        const adminUser: User = {
-          id: `admin-${country}`,
+        const globalAdminUser: User = {
+          id: 'global-admin',
           login: 'admin',
-          email: `admin@amber-studios-${country}.com`,
-          firstName: 'Admin',
-          lastName: 'User',
-          role: 'admin',
-          country,
+          email: 'global@amber-studios.com',
+          firstName: 'Global',
+          lastName: 'Admin',
+          role: 'global-admin',
+          country, // Will be set to default but has access to all countries
           isActive: true,
           lastLogin: new Date(),
           createdAt: new Date(),
           updatedAt: new Date(),
         };
-        return adminUser;
+        return globalAdminUser;
+      }
+
+      // Check for country-specific admin with prefix
+      const countryPrefixes = {
+        'lv_': 'latvia',
+        'pl_': 'poland', 
+        'ge_': 'georgia',
+        'co_': 'colombia',
+        'lt_': 'lithuania',
+      };
+
+      for (const [prefix, countryCode] of Object.entries(countryPrefixes)) {
+        if (login.startsWith(prefix) && login.length > prefix.length) {
+          const baseLogin = login.substring(prefix.length);
+          if (baseLogin === 'admin' && password === 'admin') {
+            const adminUser: User = {
+              id: `admin-${countryCode}`,
+              login: login,
+              email: `admin@amber-studios-${countryCode}.com`,
+              firstName: 'Admin',
+              lastName: 'User',
+              role: 'admin',
+              country: countryCode as Country,
+              isActive: true,
+              lastLogin: new Date(),
+              createdAt: new Date(),
+              updatedAt: new Date(),
+            };
+            return adminUser;
+          }
+        }
       }
 
       // Check for test users (for demo purposes)
