@@ -8,7 +8,8 @@ export function hasPermission(userRole: UserRole, requiredRole: UserRole | UserR
 export function canAccessCSV(userRole: UserRole, csvType: string): boolean {
   switch (userRole) {
     case 'admin':
-      return true; // Admin can access all CSV types
+    case 'global-admin':
+      return true; // Admin and global admin can access all CSV types
     case 'dealer':
       return ['dealer_schedule_current', 'mistake_statistics_current', 'daily_mistakes_current'].includes(csvType);
     case 'sm':
@@ -25,21 +26,25 @@ export class AuthService {
     try {
       
       // Check for global admin (no prefix)
-      if (login === 'admin' && password === 'admin') {
-        const globalAdminUser: User = {
-          id: 'global-admin',
-          login: 'admin',
-          email: 'global@amber-studios.com',
-          firstName: 'Global',
-          lastName: 'Admin',
-          role: 'global-admin',
-          country, // Will be set to default but has access to all countries
-          isActive: true,
-          lastLogin: new Date(),
-          createdAt: new Date(),
-          updatedAt: new Date(),
-        };
-        return globalAdminUser;
+      if (login === 'admin') {
+        // Get stored global admin password or use default
+        const storedPassword = localStorage.getItem('global-admin-password') || 'admin';
+        if (password === storedPassword) {
+          const globalAdminUser: User = {
+            id: 'global-admin',
+            login: 'admin',
+            email: 'global@amber-studios.com',
+            firstName: 'Global',
+            lastName: 'Admin',
+            role: 'global-admin',
+            country, // Will be set to default but has access to all countries
+            isActive: true,
+            lastLogin: new Date(),
+            createdAt: new Date(),
+            updatedAt: new Date(),
+          };
+          return globalAdminUser;
+        }
       }
 
       // Check for country-specific admin with prefix
@@ -105,6 +110,16 @@ export class AuthService {
     }
   }
 
+  static async changeGlobalAdminPassword(newPassword: string): Promise<boolean> {
+    try {
+      localStorage.setItem('global-admin-password', newPassword);
+      return true;
+    } catch (error) {
+      console.error('Error changing global admin password:', error);
+      return false;
+    }
+  }
+
   static getTestUsers(country: Country): User[] {
     return [
       {
@@ -158,6 +173,26 @@ export class AuthService {
         return allUsers.filter(u => u.country === country);
       }
       return [];
+    } catch {
+      return [];
+    }
+  }
+
+  // For global admin to access users from any country
+  static getAllStoredUsers(): User[] {
+    try {
+      const countries: Country[] = ['latvia', 'poland', 'georgia', 'colombia', 'lithuania'];
+      const allUsers: User[] = [];
+      
+      countries.forEach(country => {
+        const storedUsers = localStorage.getItem(`admin-users-${country}`);
+        if (storedUsers) {
+          const countryUsers: User[] = JSON.parse(storedUsers);
+          allUsers.push(...countryUsers);
+        }
+      });
+      
+      return allUsers;
     } catch {
       return [];
     }

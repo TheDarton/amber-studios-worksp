@@ -20,6 +20,8 @@ export interface AuthState {
   user: User | null;
   isAuthenticated: boolean;
   country: Country | null;
+  // For global admin to switch between countries
+  activeCountry?: Country | null;
 }
 
 export interface DealerSchedule {

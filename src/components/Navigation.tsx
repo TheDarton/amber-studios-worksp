@@ -2,8 +2,10 @@ import { ReactNode } from 'react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Separator } from '@/components/ui/separator';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useAuth } from '@/hooks/useAuth';
 import { hasPermission } from '@/lib/auth';
+import { Country } from '@/types';
 import { 
   List as Menu, 
   Calendar, 
@@ -14,7 +16,8 @@ import {
   Clipboard as ClipboardList, 
   ArrowsLeftRight as ArrowLeftRight,
   Gear as Settings,
-  SignOut as LogOut
+  SignOut as LogOut,
+  Globe as Globe
 } from '@phosphor-icons/react';
 import amberLogo from '@/assets/images/amber-studios-logo.png';
 
@@ -24,8 +27,16 @@ interface NavigationProps {
   onLogout: () => void;
 }
 
+const COUNTRY_NAMES = {
+  latvia: 'Latvia',
+  poland: 'Poland',
+  georgia: 'Georgia',
+  colombia: 'Colombia',
+  lithuania: 'Lithuania',
+} as const;
+
 export function Navigation({ currentPage, onNavigate, onLogout }: NavigationProps) {
-  const { user } = useAuth();
+  const { user, isGlobalAdmin, effectiveCountry, switchCountry } = useAuth();
   
   // Fallback user data if not loaded yet
   const currentUser = user || { 
@@ -82,7 +93,7 @@ export function Navigation({ currentPage, onNavigate, onLogout }: NavigationProp
       },
       { 
         id: 'admin', 
-        label: 'Admin Panel', 
+        label: 'Users', 
         icon: Settings,
         roles: ['admin', 'global-admin'] // Only admins see admin panel
       },
@@ -113,13 +124,38 @@ export function Navigation({ currentPage, onNavigate, onLogout }: NavigationProp
           </p>
           <div className="flex items-center space-x-2">
             <span className="px-2 py-1 text-xs bg-primary/20 text-primary rounded-full font-medium">
-              {currentUser.role.replace('_', ' ')}
+              {currentUser.role.replace('-', ' ')}
             </span>
             <span className="px-2 py-1 text-xs bg-accent/20 text-accent rounded-full font-medium">
-              {currentUser.country}
+              {COUNTRY_NAMES[effectiveCountry as keyof typeof COUNTRY_NAMES] || effectiveCountry}
             </span>
           </div>
         </div>
+
+        {/* Country Selector for Global Admin */}
+        {isGlobalAdmin && (
+          <div className="mt-4">
+            <div className="flex items-center space-x-2 mb-2">
+              <Globe className="h-4 w-4 text-muted-foreground" />
+              <span className="text-xs font-medium text-muted-foreground">Active Country</span>
+            </div>
+            <Select
+              value={effectiveCountry || 'latvia'}
+              onValueChange={(value) => switchCountry(value as Country)}
+            >
+              <SelectTrigger className="w-full h-8 text-xs bg-background border-border">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {Object.entries(COUNTRY_NAMES).map(([code, name]) => (
+                  <SelectItem key={code} value={code} className="text-xs">
+                    {name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        )}
       </div>
       
       {/* Navigation Items */}

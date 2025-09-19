@@ -7,7 +7,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { Country } from '@/types';
 
 function App() {
-  const { user, isAuthenticated, login, logout } = useAuth();
+  const { user, isAuthenticated, effectiveCountry, login, logout } = useAuth();
   const [currentPage, setCurrentPage] = useState('welcome');
 
   const handleLogout = () => {

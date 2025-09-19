@@ -73,7 +73,7 @@ export function LoginModal({ isOpen, onLogin }: LoginModalProps) {
 
   return (
     <Dialog open={isOpen}>
-      <DialogContent className="sm:max-w-md bg-card border-border shadow-2xl">
+      <DialogContent className="sm:max-w-md bg-card border-border shadow-2xl" aria-describedby="login-description">
         <div className="absolute inset-0 bg-gradient-to-br from-primary/3 to-accent/3 rounded-lg" />
         
         <DialogHeader className="relative">
@@ -87,7 +87,7 @@ export function LoginModal({ isOpen, onLogin }: LoginModalProps) {
           <DialogTitle className="text-center text-2xl font-bold text-foreground">
             Workspace
           </DialogTitle>
-          <DialogDescription className="text-center mt-4">
+          <DialogDescription id="login-description" className="text-center mt-4">
             <p className="text-sm text-muted-foreground leading-tight">
               Management system for{' '}
               <a 
@@ -113,12 +113,8 @@ export function LoginModal({ isOpen, onLogin }: LoginModalProps) {
               value={login}
               onChange={(e) => setLogin(e.target.value)}
               className="w-full h-10 bg-background border-border"
-              placeholder="admin, lv_user, pl_user, etc."
               required
             />
-            <p className="text-xs text-muted-foreground">
-              Use prefix lv_, pl_, ge_, co_, lt_ for country-specific accounts or 'admin' for global access
-            </p>
           </div>
 
           <div className="space-y-2">
