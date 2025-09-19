@@ -96,7 +96,7 @@ export function Navigation({ currentPage, onNavigate, onLogout }: NavigationProp
   const NavContent = ({ onItemClick }: { onItemClick?: () => void }) => (
     <div className="flex flex-col h-full bg-card border-r border-border">
       {/* Header */}
-      <div className="p-6 bg-gradient-to-r from-primary/10 to-accent/10 border-b border-border">
+      <div className="p-6 bg-background/80 from-primary/10 to-accent/10 border-b border-border">
         <div className="flex items-center space-x-3 mb-3">
           <img 
             src={amberLogo} 
@@ -123,7 +123,7 @@ export function Navigation({ currentPage, onNavigate, onLogout }: NavigationProp
       </div>
       
       {/* Navigation Items */}
-      <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
+      <nav className="flex-1 p-4 space-y-1 overflow-y-auto bg-background/80">
         {availableItems.map((item) => {
           const Icon = item.icon;
           const isActive = currentPage === item.id;
@@ -155,7 +155,7 @@ export function Navigation({ currentPage, onNavigate, onLogout }: NavigationProp
       <Separator className="bg-border" />
       
       {/* Footer Actions */}
-      <div className="p-4 space-y-1 bg-muted/30">
+      <div className="p-4 space-y-1 bg-background/80">
         <Button 
           className="w-full justify-start h-11 bg-destructive text-destructive-foreground hover:bg-destructive/90 transition-all duration-200 group"
           onClick={(e) => {
