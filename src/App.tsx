@@ -4,10 +4,9 @@ import { LoginModal } from '@/components/LoginModal';
 import { Navigation } from '@/components/Navigation';
 import { AdminPanel } from '@/components/AdminPanel';
 import { useAuth } from '@/hooks/useAuth';
-import { Country } from '@/types';
 
 function App() {
-  const { user, isAuthenticated, effectiveCountry, login, logout } = useAuth();
+  const { user, isAuthenticated, effectiveCountryId, login, logout } = useAuth();
   const [currentPage, setCurrentPage] = useState('welcome');
 
   const handleLogout = () => {
@@ -15,8 +14,8 @@ function App() {
     logout();
   };
 
-  const handleLogin = async (loginValue: string, password: string, country: Country) => {
-    const success = await login(loginValue, password, country);
+  const handleLogin = async (loginValue: string, password: string) => {
+    const success = await login(loginValue, password);
     if (success) {
       setCurrentPage('welcome');
     }

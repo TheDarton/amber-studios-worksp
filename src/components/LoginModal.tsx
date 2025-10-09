@@ -1,71 +1,47 @@
 import { useState } from 'react';
+import { Dialog, DialogContent } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
-import { Country } from '@/types';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Eye, EyeClosed } from '@phosphor-icons/react';
 import { toast } from 'sonner';
-import amberLogo from '@/assets/images/amber-studios-logo.png';
+import { useLanguage, Language } from '@/hooks/useLanguage';
+import { getTranslation, languageOptions } from '@/lib/translations';
+import logoImg from '@/assets/images/amber-studios-logo.png';
 
 interface LoginModalProps {
   isOpen: boolean;
-  onLogin: (login: string, password: string, country: Country) => Promise<boolean>;
+  onLogin: (login: string, password: string) => Promise<boolean>;
 }
 
-const COUNTRY_PREFIXES = {
-  'lv_': 'latvia' as Country,
-  'pl_': 'poland' as Country,
-  'ge_': 'georgia' as Country,
-  'co_': 'colombia' as Country,
-  'lt_': 'lithuania' as Country,
-};
-
 export function LoginModal({ isOpen, onLogin }: LoginModalProps) {
+  const { currentLanguage, changeLanguage } = useLanguage();
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const getCountryFromLogin = (loginValue: string): Country | null => {
-    // Check for global admin (no prefix)
-    if (loginValue === 'admin') {
-      return null; // Special case for global admin
-    }
-    
-    for (const [prefix, country] of Object.entries(COUNTRY_PREFIXES)) {
-      if (loginValue.startsWith(prefix)) {
-        return country;
-      }
-    }
-    return null;
-  };
+  const t = (key: string) => getTranslation(currentLanguage, key);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!login || !password) {
-      toast.error('Please fill in all fields');
+    if (!login.trim() || !password.trim()) {
+      toast.error(t('invalidCredentials'));
       return;
     }
 
-    if (isLoading) {
-      return; // Prevent multiple submissions
-    }
-
-    // Determine country from login prefix or global admin
-    const country = getCountryFromLogin(login);
-    
-    // For global admin, use a default country for login but will have access to all
-    const loginCountry = country || 'latvia';
-
     setIsLoading(true);
+    
     try {
-      const success = await onLogin(login, password, loginCountry);
+      const success = await onLogin(login.trim(), password);
       if (!success) {
-        toast.error('Invalid credentials or inactive account');
+        toast.error(t('invalidCredentials'));
       }
-      // Always reset loading state
     } catch (error) {
-      toast.error('Login failed. Please try again.');
+      console.error('Login error:', error);
+      toast.error(t('invalidCredentials'));
     } finally {
       setIsLoading(false);
     }
@@ -73,77 +49,117 @@ export function LoginModal({ isOpen, onLogin }: LoginModalProps) {
 
   return (
     <Dialog open={isOpen}>
-      <DialogContent className="sm:max-w-md bg-card border-border shadow-2xl" aria-describedby="login-description">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/3 to-accent/3 rounded-lg" />
+      <DialogContent 
+        className="sm:max-w-md mx-auto bg-white/95 backdrop-blur-sm border-orange-200 shadow-2xl"
+        aria-describedby="login-description"
+      >
+        <div id="login-description" className="sr-only">
+          Login form to access the workspace management system
+        </div>
         
-        <DialogHeader className="relative">
-          <div className="flex items-center justify-center mb-6">
-            <img 
-              src={amberLogo} 
-              alt="Amber Studios" 
-              className="h-24 w-auto object-contain"
-            />
-          </div>
-          <DialogTitle className="text-center text-2xl font-bold text-foreground">
-            Workspace
-          </DialogTitle>
-          <DialogDescription id="login-description" className="text-center mt-4">
-            <p className="text-sm text-muted-foreground leading-tight">
-              Management system for{' '}
-              <a 
-                href="https://amber-studios.com" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="text-muted-foreground underline underline-offset-2 transition-colors duration-200"
-              >
-                amber-studios.com
-              </a>
-              <br />
-              Game presenters and shift managers
-            </p>
-          </DialogDescription>
-        </DialogHeader>
-        
-        <form onSubmit={handleSubmit} className="space-y-6 relative">
-          <div className="space-y-2">
-            <Label htmlFor="login" className="text-sm font-medium">Login</Label>
-            <Input
-              id="login"
-              type="text"
-              value={login}
-              onChange={(e) => setLogin(e.target.value)}
-              className="w-full h-10 bg-background border-border"
-              required
-            />
+        <div className="flex flex-col items-center space-y-6 py-4">
+          {/* Logo */}
+          <div className="flex items-center justify-center mb-2">
+            <img src={logoImg} alt="Amber Studios Logo" className="h-16 w-auto" />
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="password" className="text-sm font-medium">Password</Label>
-            <Input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full h-10 bg-background border-border"
-              required
-            />
+          {/* Title */}
+          <div className="text-center space-y-2">
+            <h1 className="text-2xl font-bold text-gray-900">
+              {t('workspace')}
+            </h1>
+            <div className="text-sm text-gray-600 leading-tight">
+              <div>{t('managementSystem')}</div>
+              <div>{t('gamePresenters')}</div>
+            </div>
           </div>
 
-          <Button 
-            type="submit" 
-            className="w-full h-11 bg-primary hover:bg-primary/90 text-primary-foreground font-medium shadow-lg hover:shadow-xl transition-all duration-200" 
-            disabled={isLoading}
-          >
-            {isLoading ? (
-              <div className="flex items-center space-x-2">
-                <div className="w-4 h-4 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full animate-spin" />
-                <span>Signing in...</span>
+          {/* Language Selector */}
+          <div className="w-full space-y-2">
+            <Label htmlFor="language" className="text-sm text-gray-700">
+              {t('language')}
+            </Label>
+            <Select value={currentLanguage} onValueChange={(value: Language) => changeLanguage(value)}>
+              <SelectTrigger id="language" className="w-full bg-white border-gray-300">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {languageOptions.map((option) => (
+                  <SelectItem key={option.value} value={option.value}>
+                    {option.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          {/* Login Form */}
+          <form onSubmit={handleSubmit} className="w-full space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="login" className="text-sm text-gray-700">
+                {t('login')}
+              </Label>
+              <Input
+                id="login"
+                type="text"
+                value={login}
+                onChange={(e) => setLogin(e.target.value)}
+                className="w-full bg-white border-gray-300"
+                required
+                autoComplete="username"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="password" className="text-sm text-gray-700">
+                {t('password')}
+              </Label>
+              <div className="relative">
+                <Input
+                  id="password"
+                  type={showPassword ? 'text' : 'password'}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="w-full bg-white border-gray-300 pr-10"
+                  required
+                  autoComplete="current-password"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700 transition-colors"
+                  title={showPassword ? t('hidePassword') : t('showPassword')}
+                >
+                  {showPassword ? (
+                    <EyeClosed size={16} />
+                  ) : (
+                    <Eye size={16} />
+                  )}
+                </button>
               </div>
-            ) : (
-              'Sign In'
-            )}
-          </Button>
-        </form>
+            </div>
+
+            <Button
+              type="submit"
+              className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-medium py-2.5"
+              disabled={isLoading}
+            >
+              {isLoading ? t('loading') : t('signIn')}
+            </Button>
+          </form>
+
+          {/* Footer Link */}
+          <div className="text-center pt-2">
+            <a
+              href="https://amber-studios.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm text-gray-600 hover:text-gray-800 transition-colors underline"
+            >
+              amber-studios.com
+            </a>
+          </div>
+        </div>
       </DialogContent>
     </Dialog>
   );

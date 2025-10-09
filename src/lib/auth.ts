@@ -1,4 +1,9 @@
-import { AuthState, User, Country, UserRole } from '@/types';
+import { User, UserRole } from '@/types';
+import { CountryService } from './countryService';
+
+const USERS_KEY = 'workspace_users';
+const GLOBAL_ADMIN_LOGIN = 'globaladmin';
+const GLOBAL_ADMIN_PASSWORD = 'Admin1234';
 
 export function hasPermission(userRole: UserRole, requiredRole: UserRole | UserRole[]): boolean {
   const roles = Array.isArray(requiredRole) ? requiredRole : [requiredRole];
@@ -11,190 +16,174 @@ export function canAccessCSV(userRole: UserRole, csvType: string): boolean {
     case 'global-admin':
       return true; // Admin and global admin can access all CSV types
     case 'dealer':
-      return ['dealer_schedule_current', 'mistake_statistics_current', 'daily_mistakes_current'].includes(csvType);
+      return ['dealer_schedule', 'mistake_statistics', 'daily_mistakes'].includes(csvType);
     case 'sm':
-      return ['sm_schedule_current', 'mistake_statistics_current', 'daily_mistakes_current'].includes(csvType);
+      return ['sm_schedule', 'mistake_statistics', 'daily_mistakes'].includes(csvType);
     case 'operation':
-      return ['dealer_schedule_current', 'sm_schedule_current', 'mistake_statistics_current', 'daily_mistakes_current'].includes(csvType);
+      return ['dealer_schedule', 'sm_schedule', 'mistake_statistics', 'daily_mistakes'].includes(csvType);
     default:
       return false;
   }
 }
 
 export class AuthService {
-  static async login(login: string, password: string, country: Country): Promise<User | null> {
-    try {
-      
-      // Check for global admin (no prefix)
-      if (login === 'admin') {
-        // Get stored global admin password or use default
-        const storedPassword = localStorage.getItem('global-admin-password') || 'admin';
-        if (password === storedPassword) {
-          const globalAdminUser: User = {
-            id: 'global-admin',
-            login: 'admin',
-            email: 'global@amber-studios.com',
-            firstName: 'Global',
-            lastName: 'Admin',
-            role: 'global-admin',
-            country, // Will be set to default but has access to all countries
-            isActive: true,
-            lastLogin: new Date(),
-            createdAt: new Date(),
-            updatedAt: new Date(),
-          };
-          return globalAdminUser;
-        }
-      }
-
-      // Check for country-specific admin with prefix
-      const countryPrefixes = {
-        'lv_': 'latvia',
-        'pl_': 'poland', 
-        'ge_': 'georgia',
-        'co_': 'colombia',
-        'lt_': 'lithuania',
+  static async initializeGlobalAdmin(): Promise<void> {
+    const users = await spark.kv.get<User[]>(USERS_KEY) || [];
+    
+    // Check if global admin already exists
+    const globalAdminExists = users.some(user => user.login === GLOBAL_ADMIN_LOGIN);
+    
+    if (!globalAdminExists) {
+      const globalAdmin: User = {
+        id: 'global_admin_001',
+        login: GLOBAL_ADMIN_LOGIN,
+        email: 'admin@amber-studios.com',
+        firstName: 'Global',
+        lastName: 'Admin',
+        role: 'global-admin',
+        isActive: true,
+        createdAt: new Date(),
+        updatedAt: new Date(),
       };
-
-      for (const [prefix, countryCode] of Object.entries(countryPrefixes)) {
-        if (login.startsWith(prefix) && login.length > prefix.length) {
-          const baseLogin = login.substring(prefix.length);
-          if (baseLogin === 'admin' && password === 'admin') {
-            const adminUser: User = {
-              id: `admin-${countryCode}`,
-              login: login,
-              email: `admin@amber-studios-${countryCode}.com`,
-              firstName: 'Admin',
-              lastName: 'User',
-              role: 'admin',
-              country: countryCode as Country,
-              isActive: true,
-              lastLogin: new Date(),
-              createdAt: new Date(),
-              updatedAt: new Date(),
-            };
-            return adminUser;
-          }
-        }
-      }
-
-      // Check for test users (for demo purposes)
-      const testUsers = this.getTestUsers(country);
-      const testUser = testUsers.find(u => u.login === login && password === 'test');
-      if (testUser) {
-        return {
-          ...testUser,
-          lastLogin: new Date(),
-          updatedAt: new Date()
-        };
-      }
-
-      // Check against created users (in real app, this would be from database)
-      const users = this.getStoredUsers(country);
-      const user = users.find(u => u.login === login && u.isActive);
       
-      if (user) {
-        // In real app, verify password hash
-        // For demo, we'll accept any password for created users
-        return {
-          ...user,
-          lastLogin: new Date(),
-          updatedAt: new Date()
-        };
+      const updatedUsers = [...users, globalAdmin];
+      await spark.kv.set(USERS_KEY, updatedUsers);
+    }
+  }
+
+  static async login(login: string, password: string): Promise<User | null> {
+    await this.initializeGlobalAdmin();
+    
+    // Handle global admin login
+    if (login === GLOBAL_ADMIN_LOGIN && password === GLOBAL_ADMIN_PASSWORD) {
+      const users = await spark.kv.get<User[]>(USERS_KEY) || [];
+      const globalAdmin = users.find(user => user.login === GLOBAL_ADMIN_LOGIN);
+      if (globalAdmin) {
+        // Update last login
+        const updatedUser = { ...globalAdmin, lastLogin: new Date(), updatedAt: new Date() };
+        const updatedUsers = users.map(u => u.id === globalAdmin.id ? updatedUser : u);
+        await spark.kv.set(USERS_KEY, updatedUsers);
+        return updatedUser;
       }
-
-      return null;
-    } catch (error) {
-      console.error('Login error:', error);
-      return null;
     }
-  }
 
-  static async changeGlobalAdminPassword(newPassword: string): Promise<boolean> {
-    try {
-      localStorage.setItem('global-admin-password', newPassword);
-      return true;
-    } catch (error) {
-      console.error('Error changing global admin password:', error);
-      return false;
-    }
-  }
-
-  static getTestUsers(country: Country): User[] {
-    return [
-      {
-        id: `dealer-${country}`,
-        login: 'dealer',
-        email: `dealer@amber-studios-${country}.com`,
-        firstName: 'John',
-        lastName: 'Dealer',
-        role: 'dealer',
-        country,
-        isActive: true,
-        lastLogin: new Date(),
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-      {
-        id: `sm-${country}`,
-        login: 'sm',
-        email: `sm@amber-studios-${country}.com`,
-        firstName: 'Jane',
-        lastName: 'Manager',
-        role: 'sm',
-        country,
-        isActive: true,
-        lastLogin: new Date(),
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-      {
-        id: `operation-${country}`,
-        login: 'operation',
-        email: `operation@amber-studios-${country}.com`,
-        firstName: 'Mike',
-        lastName: 'Operations',
-        role: 'operation',
-        country,
-        isActive: true,
-        lastLogin: new Date(),
-        createdAt: new Date(),
-        updatedAt: new Date(),
+    // Handle prefix-based login for country admins and other users
+    const prefix = this.extractPrefix(login);
+    if (prefix) {
+      const actualLogin = login.replace(`${prefix}_`, '');
+      const country = await CountryService.getCountryByPrefix(prefix);
+      if (country) {
+        return this.authenticateUser(actualLogin, password, country.id);
       }
-    ];
+    }
+
+    return null;
   }
 
-  static getStoredUsers(country: Country): User[] {
-    try {
-      // This is a simplified approach - in real app use proper database
-      const storedUsers = localStorage.getItem(`admin-users-${country}`);
-      if (storedUsers) {
-        const allUsers: User[] = JSON.parse(storedUsers);
-        return allUsers.filter(u => u.country === country);
-      }
-      return [];
-    } catch {
-      return [];
+  private static extractPrefix(login: string): string | null {
+    const parts = login.split('_');
+    if (parts.length >= 2) {
+      return parts[0];
     }
+    return null;
   }
 
-  // For global admin to access users from any country
-  static getAllStoredUsers(): User[] {
-    try {
-      const countries: Country[] = ['latvia', 'poland', 'georgia', 'colombia', 'lithuania'];
-      const allUsers: User[] = [];
-      
-      countries.forEach(country => {
-        const storedUsers = localStorage.getItem(`admin-users-${country}`);
-        if (storedUsers) {
-          const countryUsers: User[] = JSON.parse(storedUsers);
-          allUsers.push(...countryUsers);
-        }
-      });
-      
-      return allUsers;
-    } catch {
-      return [];
+  private static async authenticateUser(login: string, password: string, countryId: string): Promise<User | null> {
+    const users = await spark.kv.get<User[]>(USERS_KEY) || [];
+    const user = users.find(u => 
+      u.login === login && 
+      u.countryId === countryId &&
+      u.isActive
+    );
+    
+    if (user && this.verifyPassword(password, user.id)) {
+      // Update last login
+      const updatedUser = { ...user, lastLogin: new Date(), updatedAt: new Date() };
+      const updatedUsers = users.map(u => u.id === user.id ? updatedUser : u);
+      await spark.kv.set(USERS_KEY, updatedUsers);
+      return updatedUser;
     }
+    
+    return null;
+  }
+
+  private static verifyPassword(password: string, userId: string): boolean {
+    // Simple password verification - in production, use proper hashing
+    if (userId === 'global_admin_001') {
+      return password === GLOBAL_ADMIN_PASSWORD;
+    }
+    return password === 'admin'; // Default password for all users
+  }
+
+  static async createUser(userData: Omit<User, 'id' | 'createdAt' | 'updatedAt' | 'lastLogin'>): Promise<User> {
+    const users = await spark.kv.get<User[]>(USERS_KEY) || [];
+    
+    // Check if user already exists
+    const existingUser = users.find(u => 
+      u.login === userData.login && 
+      u.countryId === userData.countryId
+    );
+    
+    if (existingUser) {
+      throw new Error('User with this login already exists in this country');
+    }
+
+    const newUser: User = {
+      ...userData,
+      id: `user_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+
+    const updatedUsers = [...users, newUser];
+    await spark.kv.set(USERS_KEY, updatedUsers);
+    
+    return newUser;
+  }
+
+  static async getUsers(countryId?: string): Promise<User[]> {
+    const users = await spark.kv.get<User[]>(USERS_KEY) || [];
+    
+    if (countryId) {
+      return users.filter(u => u.countryId === countryId);
+    }
+    
+    return users;
+  }
+
+  static async updateUser(userId: string, updates: Partial<User>): Promise<User> {
+    const users = await spark.kv.get<User[]>(USERS_KEY) || [];
+    const userIndex = users.findIndex(u => u.id === userId);
+    
+    if (userIndex === -1) {
+      throw new Error('User not found');
+    }
+
+    const updatedUser = {
+      ...users[userIndex],
+      ...updates,
+      updatedAt: new Date(),
+    };
+
+    const updatedUsers = [...users];
+    updatedUsers[userIndex] = updatedUser;
+    
+    await spark.kv.set(USERS_KEY, updatedUsers);
+    
+    return updatedUser;
+  }
+
+  static async deleteUser(userId: string): Promise<void> {
+    const users = await spark.kv.get<User[]>(USERS_KEY) || [];
+    const filteredUsers = users.filter(u => u.id !== userId);
+    await spark.kv.set(USERS_KEY, filteredUsers);
+  }
+
+  static async resetPassword(userId: string, newPassword: string): Promise<void> {
+    // In a real implementation, hash the password
+    console.log(`Password reset for user ${userId}: ${newPassword}`);
   }
 }
+
+// Initialize global admin
+AuthService.initializeGlobalAdmin();

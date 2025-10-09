@@ -1,24 +1,22 @@
 import { useKV } from '@github/spark/hooks';
-import { AuthState, User, Country } from '@/types';
+import { AuthState, User } from '@/types';
 import { AuthService } from '@/lib/auth';
 
 export function useAuth() {
   const [authState, setAuthState] = useKV<AuthState>('auth_state', {
     user: null,
     isAuthenticated: false,
-    country: null,
-    activeCountry: null,
+    activeCountryId: null,
   });
 
-  const login = async (login: string, password: string, country: Country): Promise<boolean> => {
+  const login = async (login: string, password: string): Promise<boolean> => {
     try {
-      const user = await AuthService.login(login, password, country);
+      const user = await AuthService.login(login, password);
       if (user) {
         const newAuthState = {
           user,
           isAuthenticated: true,
-          country,
-          activeCountry: user.role === 'global-admin' ? country : null,
+          activeCountryId: user.role === 'global-admin' ? null : user.countryId,
         };
         setAuthState(newAuthState);
         return true;
@@ -34,8 +32,7 @@ export function useAuth() {
     const newAuthState = {
       user: null,
       isAuthenticated: false,
-      country: null,
-      activeCountry: null,
+      activeCountryId: null,
     };
     setAuthState(newAuthState);
   };
@@ -43,37 +40,35 @@ export function useAuth() {
   const updateUser = (user: User) => {
     const newAuthState = {
       isAuthenticated: authState?.isAuthenticated || false,
-      country: authState?.country || null,
-      activeCountry: authState?.activeCountry || null,
+      activeCountryId: authState?.activeCountryId || null,
       user,
     };
     setAuthState(newAuthState);
   };
 
-  const switchCountry = (country: Country) => {
+  const switchCountry = (countryId: string) => {
     if (authState?.user?.role === 'global-admin') {
       const newAuthState = {
         ...authState,
-        activeCountry: country,
+        activeCountryId: countryId,
       };
       setAuthState(newAuthState);
     }
   };
 
-  // Get effective country (for global admin, use activeCountry; for others, use their assigned country)
-  const getEffectiveCountry = (): Country | null => {
+  // Get effective country (for global admin, use activeCountryId; for others, use their assigned countryId)
+  const getEffectiveCountryId = (): string | null => {
     if (authState?.user?.role === 'global-admin') {
-      return authState.activeCountry || authState.country;
+      return authState.activeCountryId;
     }
-    return authState?.country || null;
+    return authState?.user?.countryId || null;
   };
 
   return {
     user: authState?.user || null,
     isAuthenticated: authState?.isAuthenticated || false,
-    country: authState?.country || null,
-    activeCountry: authState?.activeCountry || null,
-    effectiveCountry: getEffectiveCountry(),
+    activeCountryId: authState?.activeCountryId || null,
+    effectiveCountryId: getEffectiveCountryId(),
     isGlobalAdmin: authState?.user?.role === 'global-admin',
     login,
     logout,

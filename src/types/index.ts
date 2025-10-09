@@ -1,11 +1,11 @@
 export interface User {
   id: string;
   login: string;
-  email: string;
-  firstName: string;
-  lastName: string;
+  email?: string;
+  firstName?: string;
+  lastName?: string;
   role: UserRole;
-  country: Country;
+  countryId?: string;
   isActive: boolean;
   lastLogin?: Date;
   createdAt: Date;
@@ -14,14 +14,20 @@ export interface User {
 
 export type UserRole = 'admin' | 'global-admin' | 'sm' | 'dealer' | 'operation';
 
-export type Country = 'poland' | 'georgia' | 'colombia' | 'latvia' | 'lithuania';
+export interface Country {
+  id: string;
+  name: string;
+  prefix: string;
+  isActive: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+}
 
 export interface AuthState {
   user: User | null;
   isAuthenticated: boolean;
-  country: Country | null;
   // For global admin to switch between countries
-  activeCountry?: Country | null;
+  activeCountryId?: string | null;
 }
 
 export interface DealerSchedule {
@@ -121,7 +127,7 @@ export interface CSVImportJob {
   id: string;
   fileName: string;
   fileType: CSVFileType;
-  country: Country;
+  countryId: string;
   status: 'uploading' | 'mapping' | 'validating' | 'previewing' | 'importing' | 'completed' | 'failed';
   rowCount: number;
   validRows: number;
@@ -153,5 +159,5 @@ export interface AuditLog {
   resourceId: string;
   details: Record<string, any>;
   timestamp: Date;
-  country: Country;
+  countryId: string;
 }
