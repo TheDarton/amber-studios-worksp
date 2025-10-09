@@ -4,69 +4,80 @@ import { useCallback } from 'react';
 export interface User {
   id: string;
   username: string;
-  email: string;
-  role: 'Admin' | 'SM' | 'Dealer' | 'Operation';
-  countryId: string;
+  email?: string;
+  name?: string;
+  surname?: string;
+  role: 'Global_Admin' | 'Country_Admin' | 'SM' | 'Dealer' | 'Operation';
+  countryCode?: string;
   isActive: boolean;
+}
+
+export interface Country {
+  id: string;
+  name: string;
+  code: string;
 }
 
 interface AuthState {
   user: User | null;
   isAuthenticated: boolean;
-  activeCountryId: string | null;
+  activeCountryCode: string | null;
 }
-
-const COUNTRIES = [
-  { id: 'PL', name: 'Poland' },
-  { id: 'GE', name: 'Georgia' },
-  { id: 'CO', name: 'Colombia' },
-  { id: 'LV', name: 'Latvia' },
-  { id: 'LT', name: 'Lithuania' }
-];
 
 export function useAuth() {
   const [authState, setAuthState] = useKV<AuthState>('auth-state', {
     user: null,
     isAuthenticated: false,
-    activeCountryId: null
+    activeCountryCode: null
   });
 
   const [users, setUsers] = useKV<User[]>('system-users', []);
+  const [countries, setCountries] = useKV<Country[]>('system-countries', []);
 
-  const login = useCallback(async (username: string, password: string, countryId: string): Promise<boolean> => {
-    // Admin login
-    if (username === 'admin' && password === 'admin') {
-      const adminUser: User = {
-        id: 'admin',
-        username: 'admin',
-        email: 'admin@amber-studios.com',
-        role: 'Admin',
-        countryId,
+  const login = useCallback(async (username: string, password: string): Promise<boolean> => {
+    // Global Admin login
+    if (username === 'Global_admin' && password === 'Admin1234') {
+      const globalAdminUser: User = {
+        id: 'global_admin',
+        username: 'Global_admin',
+        role: 'Global_Admin',
         isActive: true
       };
       
       setAuthState({
-        user: adminUser,
+        user: globalAdminUser,
         isAuthenticated: true,
-        activeCountryId: countryId
+        activeCountryCode: null
       });
       return true;
     }
 
-    // Check created users
+    // Check country admin login (with prefix)
     const userList = users || [];
+    
+    // Extract country code from username if it has prefix (e.g., "lv_admin" -> "lv")
+    let countryCode = '';
+    let actualUsername = username;
+    if (username.includes('_')) {
+      const parts = username.split('_');
+      if (parts.length === 2) {
+        countryCode = parts[0];
+        actualUsername = parts[1];
+      }
+    }
+
     const user = userList.find(u => 
-      u.username === username && 
-      u.countryId === countryId && 
+      u.username === actualUsername && 
+      u.countryCode === countryCode && 
       u.isActive
     );
 
     if (user) {
-      // For demo purposes, any password works for created users
+      // For demo purposes, check if password matches
       setAuthState({
         user,
         isAuthenticated: true,
-        activeCountryId: countryId
+        activeCountryCode: countryCode
       });
       return true;
     }
@@ -78,14 +89,49 @@ export function useAuth() {
     setAuthState({
       user: null,
       isAuthenticated: false,
-      activeCountryId: null
+      activeCountryCode: null
     });
   }, [setAuthState]);
 
-  const createUser = useCallback((userData: Omit<User, 'id' | 'email'> & { username: string }) => {
+  const createCountry = useCallback((name: string) => {
+    // Generate country code from name (e.g., "Latvia" -> "lv")
+    const code = name.toLowerCase().substring(0, 2);
+    const newCountry: Country = {
+      id: `country_${Date.now()}`,
+      name,
+      code
+    };
+    
+    setCountries(current => [...(current || []), newCountry]);
+    return newCountry;
+  }, [setCountries]);
+
+  const createCountryAdmin = useCallback((adminData: {
+    username: string;
+    name?: string;
+    surname?: string;
+    password: string;
+    email?: string;
+    countryCode: string;
+  }) => {
+    const newAdmin: User = {
+      id: `admin_${Date.now()}`,
+      username: adminData.username,
+      name: adminData.name,
+      surname: adminData.surname,
+      email: adminData.email,
+      role: 'Country_Admin',
+      countryCode: adminData.countryCode,
+      isActive: true
+    };
+    
+    setUsers(current => [...(current || []), newAdmin]);
+    return newAdmin;
+  }, [setUsers]);
+
+  const createUser = useCallback((userData: Omit<User, 'id'>) => {
     const newUser: User = {
       id: `user_${Date.now()}`,
-      email: `${userData.username}@amber-studios.com`,
       ...userData
     };
     
@@ -101,29 +147,33 @@ export function useAuth() {
     );
   }, [setUsers]);
 
-  const switchCountry = useCallback((countryId: string) => {
-    if (authState?.user?.role === 'Admin') {
+  const switchCountry = useCallback((countryCode: string) => {
+    if (authState?.user?.role === 'Global_Admin') {
       setAuthState(current => ({
         user: current?.user || null,
         isAuthenticated: current?.isAuthenticated || false,
-        activeCountryId: countryId
+        activeCountryCode: countryCode
       }));
     }
   }, [authState?.user?.role, setAuthState]);
 
-  const isGlobalAdmin = authState?.user?.role === 'Admin';
-  const effectiveCountryId = authState?.activeCountryId || authState?.user?.countryId;
+  const isGlobalAdmin = authState?.user?.role === 'Global_Admin';
+  const isCountryAdmin = authState?.user?.role === 'Country_Admin';
+  const effectiveCountryCode = authState?.activeCountryCode || authState?.user?.countryCode;
 
   return {
     user: authState?.user || null,
     isAuthenticated: authState?.isAuthenticated || false,
-    activeCountryId: authState?.activeCountryId || null,
-    effectiveCountryId,
+    activeCountryCode: authState?.activeCountryCode || null,
+    effectiveCountryCode,
     isGlobalAdmin,
+    isCountryAdmin,
     users: users || [],
-    countries: COUNTRIES,
+    countries: countries || [],
     login,
     logout,
+    createCountry,
+    createCountryAdmin,
     createUser,
     updateUser,
     switchCountry

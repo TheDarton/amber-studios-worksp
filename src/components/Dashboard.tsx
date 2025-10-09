@@ -12,10 +12,10 @@ import {
 } from '@phosphor-icons/react';
 
 export function Dashboard() {
-  const { user, effectiveCountryId, countries, users } = useAuth();
+  const { user, effectiveCountryCode, countries, users } = useAuth();
   
-  const currentCountry = countries.find(c => c.id === effectiveCountryId);
-  const countryUsers = users.filter(u => u.countryId === effectiveCountryId);
+  const currentCountry = countries.find(c => c.code === effectiveCountryCode);
+  const countryUsers = users.filter(u => u.countryCode === effectiveCountryCode);
 
   const getWelcomeMessage = () => {
     const time = new Date().getHours();
@@ -25,8 +25,10 @@ export function Dashboard() {
 
   const getRoleDescription = () => {
     switch (user?.role) {
-      case 'Admin':
-        return 'You have full access to all system features including user management and data imports.';
+      case 'Global_Admin':
+        return 'You have full access to all system features including country and admin management.';
+      case 'Country_Admin':
+        return 'You have full access to country-specific features including user management and data imports.';
       case 'SM':
         return 'Access your schedules, manage mistakes, and use training resources.';
       case 'Dealer':
@@ -40,7 +42,13 @@ export function Dashboard() {
 
   const getQuickActions = () => {
     switch (user?.role) {
-      case 'Admin':
+      case 'Global_Admin':
+        return [
+          { label: 'Manage Countries', icon: Users, view: 'countries' },
+          { label: 'Create Admins', icon: FileArrowUp, view: 'create-admin' },
+          { label: 'Select Country', icon: Calendar, view: 'country-select' }
+        ];
+      case 'Country_Admin':
         return [
           { label: 'Manage Users', icon: Users, view: 'users' },
           { label: 'Import Data', icon: FileArrowUp, view: 'csv-import' },
@@ -122,7 +130,7 @@ export function Dashboard() {
 
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-        {user?.role === 'Admin' && (
+        {(user?.role === 'Global_Admin' || user?.role === 'Country_Admin') && (
           <>
             <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">

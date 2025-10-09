@@ -3,17 +3,16 @@ import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { toast } from 'sonner';
 import { Eye, EyeSlash } from '@phosphor-icons/react';
+import { LanguageSelector } from '@/components/LanguageSelector';
 
 export function LoginModal() {
-  const { login, countries } = useAuth();
+  const { login } = useAuth();
   const [credentials, setCredentials] = useState({
     username: '',
-    password: '',
-    countryId: ''
+    password: ''
   });
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -21,7 +20,7 @@ export function LoginModal() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!credentials.username || !credentials.password || !credentials.countryId) {
+    if (!credentials.username || !credentials.password) {
       toast.error('Please fill in all fields');
       return;
     }
@@ -31,8 +30,7 @@ export function LoginModal() {
     try {
       const success = await login(
         credentials.username,
-        credentials.password,
-        credentials.countryId
+        credentials.password
       );
 
       if (success) {
@@ -49,36 +47,20 @@ export function LoginModal() {
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
+      {/* Language Selector in top right corner */}
+      <div className="absolute top-4 right-4">
+        <LanguageSelector />
+      </div>
+      
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
           <CardTitle className="text-2xl font-bold">Amber Studios</CardTitle>
           <CardDescription>
-            Multi-Country Workspace Management System
+            Game Presenters and Shift Managers
           </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="country">Country</Label>
-              <Select
-                value={credentials.countryId}
-                onValueChange={(value) => 
-                  setCredentials(prev => ({ ...prev, countryId: value }))
-                }
-              >
-                <SelectTrigger id="country">
-                  <SelectValue placeholder="Select country" />
-                </SelectTrigger>
-                <SelectContent>
-                  {countries.map((country) => (
-                    <SelectItem key={country.id} value={country.id}>
-                      {country.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div>
-
             <div className="space-y-2">
               <Label htmlFor="username">Username</Label>
               <Input
@@ -122,10 +104,10 @@ export function LoginModal() {
           </form>
 
           <div className="mt-6 p-4 bg-muted rounded-lg">
-            <h4 className="text-sm font-medium text-foreground mb-2">Demo Credentials</h4>
+            <h4 className="text-sm font-medium text-foreground mb-2">Default Login</h4>
             <div className="text-xs text-muted-foreground space-y-1">
-              <p><strong>Admin:</strong> username "admin", password "admin"</p>
-              <p><strong>Other roles:</strong> Create users via Admin Panel</p>
+              <p><strong>Global Admin:</strong> username "Global_admin", password "Admin1234"</p>
+              <p><strong>Country Admins:</strong> Use prefix (e.g., "lv_admin") with their password</p>
             </div>
           </div>
         </CardContent>

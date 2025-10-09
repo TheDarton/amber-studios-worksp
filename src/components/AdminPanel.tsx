@@ -13,27 +13,27 @@ import { toast } from 'sonner';
 import { UserPlus, Pencil, Trash } from '@phosphor-icons/react';
 
 export function AdminPanel() {
-  const { users, createUser, updateUser, effectiveCountryId, countries } = useAuth();
+  const { users, createUser, updateUser, effectiveCountryCode, countries } = useAuth();
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
   const [newUser, setNewUser] = useState({
     username: '',
     role: '' as 'SM' | 'Dealer' | 'Operation',
-    countryId: effectiveCountryId || '',
+    countryCode: effectiveCountryCode || '',
     isActive: true
   });
 
-  const currentCountry = countries.find(c => c.id === effectiveCountryId);
-  const countryUsers = users.filter(u => u.countryId === effectiveCountryId);
+  const currentCountry = countries.find(c => c.code === effectiveCountryCode);
+  const countryUsers = users.filter(u => u.countryCode === effectiveCountryCode);
 
   const handleCreateUser = () => {
-    if (!newUser.username || !newUser.role || !newUser.countryId) {
+    if (!newUser.username || !newUser.role || !newUser.countryCode) {
       toast.error('Please fill in all fields');
       return;
     }
 
     // Check if username already exists in this country
     const existingUser = users.find(u => 
-      u.username === newUser.username && u.countryId === newUser.countryId
+      u.username === newUser.username && u.countryCode === newUser.countryCode
     );
 
     if (existingUser) {
@@ -48,7 +48,7 @@ export function AdminPanel() {
       setNewUser({
         username: '',
         role: '' as 'SM' | 'Dealer' | 'Operation',
-        countryId: effectiveCountryId || '',
+        countryCode: effectiveCountryCode || '',
         isActive: true
       });
     } catch (error) {
@@ -127,15 +127,15 @@ export function AdminPanel() {
                 <div className="space-y-2">
                   <Label htmlFor="country">Country</Label>
                   <Select
-                    value={newUser.countryId}
-                    onValueChange={(value) => setNewUser(prev => ({ ...prev, countryId: value }))}
+                    value={newUser.countryCode}
+                    onValueChange={(value) => setNewUser(prev => ({ ...prev, countryCode: value }))}
                   >
                     <SelectTrigger>
                       <SelectValue placeholder="Select country" />
                     </SelectTrigger>
                     <SelectContent>
                       {countries.map((country) => (
-                        <SelectItem key={country.id} value={country.id}>
+                        <SelectItem key={country.id} value={country.code}>
                           {country.name}
                         </SelectItem>
                       ))}

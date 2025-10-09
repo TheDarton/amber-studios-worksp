@@ -21,9 +21,9 @@ interface NavigationProps {
 }
 
 export function Navigation({ currentView, onViewChange }: NavigationProps) {
-  const { user, effectiveCountryId, countries, logout } = useAuth();
+  const { user, effectiveCountryCode, countries, logout } = useAuth();
 
-  const currentCountry = countries.find(c => c.id === effectiveCountryId);
+  const currentCountry = countries.find(c => c.code === effectiveCountryCode);
 
   const getMenuItems = () => {
     if (!user) return [];
@@ -33,7 +33,15 @@ export function Navigation({ currentView, onViewChange }: NavigationProps) {
     ];
 
     switch (user.role) {
-      case 'Admin':
+      case 'Global_Admin':
+        return [
+          ...baseItems,
+          { id: 'countries', label: 'Country Management', icon: Users },
+          { id: 'create-admin', label: 'Create Country Admin', icon: FileArrowUp },
+          { id: 'country-select', label: 'Select Active Country', icon: Calendar },
+          { id: 'admin', label: 'Admin Panel', icon: Gear }
+        ];
+      case 'Country_Admin':
         return [
           ...baseItems,
           { id: 'users', label: 'User Management', icon: Users },
