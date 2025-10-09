@@ -7,12 +7,14 @@ interface LanguageState {
 }
 
 export function useLanguage() {
-  const [languageState, setLanguageState] = useKV<LanguageState>('language_state', {
+  const [languageState, setLanguageState] = useKV<LanguageState>('language-state', {
     currentLanguage: 'en'
   });
 
-  const changeLanguage = (language: Language) => {
-    setLanguageState({ currentLanguage: language });
+  const changeLanguage = (newLanguage: Language) => {
+    setLanguageState({
+      currentLanguage: newLanguage
+    });
   };
 
   return {
@@ -20,4 +22,3 @@ export function useLanguage() {
     changeLanguage
   };
 }
-

@@ -1,5 +1,15 @@
 import { Language } from '@/hooks/useLanguage';
 
+export const languageOptions = [
+  { value: 'en' as Language, label: 'English' },
+  { value: 'ru' as Language, label: 'Русский' },
+  { value: 'lv' as Language, label: 'Latviešu' },
+  { value: 'lt' as Language, label: 'Lietuvių' },
+  { value: 'pl' as Language, label: 'Polski' },
+  { value: 'ka' as Language, label: 'ქართული' },
+  { value: 'es' as Language, label: 'Español' },
+];
+
 const translations = {
   en: {
     countries: 'Countries',
