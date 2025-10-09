@@ -3,6 +3,7 @@ import { Toaster } from '@/components/ui/sonner';
 import { LoginModal } from '@/components/LoginModal';
 import { Navigation } from '@/components/Navigation';
 import { AdminPanel } from '@/components/AdminPanel';
+import { LanguageSelector } from '@/components/LanguageSelector';
 import { useAuth } from '@/hooks/useAuth';
 
 function App() {
@@ -79,6 +80,11 @@ function App() {
         onNavigate={setCurrentPage} 
         onLogout={handleLogout}
       />
+      
+      {/* Language selector in top right corner */}
+      <div className="fixed top-4 right-4 z-50">
+        <LanguageSelector />
+      </div>
       
       <main className="md:ml-80 min-h-screen">
         <div className="container mx-auto p-4 md:p-8 pt-16 md:pt-8">

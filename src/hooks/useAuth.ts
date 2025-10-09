@@ -59,7 +59,7 @@ export function useAuth() {
   // Get effective country (for global admin, use activeCountryId; for others, use their assigned countryId)
   const getEffectiveCountryId = (): string | null => {
     if (authState?.user?.role === 'global-admin') {
-      return authState.activeCountryId;
+      return authState.activeCountryId || null;
     }
     return authState?.user?.countryId || null;
   };

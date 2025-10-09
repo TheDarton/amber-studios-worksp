@@ -1,6 +1,6 @@
 import { useKV } from '@github/spark/hooks';
 
-export type Language = 'en' | 'ru' | 'lv' | 'lt' | 'pl' | 'ka' | 'es';
+export type Language = 'en' | 'lv' | 'pl' | 'ka' | 'es' | 'lt';
 
 interface LanguageState {
   currentLanguage: Language;

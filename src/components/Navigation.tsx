@@ -36,7 +36,7 @@ const COUNTRY_NAMES = {
 } as const;
 
 export function Navigation({ currentPage, onNavigate, onLogout }: NavigationProps) {
-  const { user, isGlobalAdmin, effectiveCountry, switchCountry } = useAuth();
+  const { user, isGlobalAdmin, effectiveCountryId, switchCountry } = useAuth();
   
   // Fallback user data if not loaded yet
   const currentUser = user || { 
@@ -127,7 +127,7 @@ export function Navigation({ currentPage, onNavigate, onLogout }: NavigationProp
               {currentUser.role.replace('-', ' ')}
             </span>
             <span className="px-2 py-1 text-xs bg-accent/20 text-accent rounded-full font-medium">
-              {COUNTRY_NAMES[effectiveCountry as keyof typeof COUNTRY_NAMES] || effectiveCountry}
+              {COUNTRY_NAMES[effectiveCountryId as keyof typeof COUNTRY_NAMES] || effectiveCountryId}
             </span>
           </div>
         </div>
@@ -140,8 +140,8 @@ export function Navigation({ currentPage, onNavigate, onLogout }: NavigationProp
               <span className="text-xs font-medium text-muted-foreground">Active Country</span>
             </div>
             <Select
-              value={effectiveCountry || 'latvia'}
-              onValueChange={(value) => switchCountry(value as Country)}
+              value={effectiveCountryId || 'latvia'}
+              onValueChange={(value) => switchCountry(value)}
             >
               <SelectTrigger className="w-full h-8 text-xs bg-background border-border">
                 <SelectValue />
