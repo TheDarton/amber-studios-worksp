@@ -8,37 +8,34 @@
 }
 
 :root {
-  /* Amber Studios Brand Colors - Light gradient background with Orange Primary */
-  --background: oklch(0.98 0.01 45); /* Very light warm background */
-  --foreground: oklch(0.15 0.02 270); /* Dark text */
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.15 0 0);
   
-  --card: oklch(1.0 0.0 0); /* Pure white cards */
-  --card-foreground: oklch(0.15 0.02 270);
-  --popover: oklch(1.0 0.0 0);
-  --popover-foreground: oklch(0.15 0.02 270);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.15 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.15 0 0);
   
-  /* Primary: Brand Orange #FFA500 */
-  --primary: oklch(0.74 0.15 70);
-  --primary-foreground: oklch(0.15 0.02 270); /* Dark text on orange */
+  --primary: oklch(0.25 0 0);
+  --primary-foreground: oklch(0.98 0 0);
   
-  --secondary: oklch(0.96 0.01 270);
-  --secondary-foreground: oklch(0.15 0.02 270);
+  --secondary: oklch(0.96 0 0);
+  --secondary-foreground: oklch(0.15 0 0);
   
-  --muted: oklch(0.97 0.005 270);
-  --muted-foreground: oklch(0.45 0.03 270);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.45 0 0);
   
-  /* Accent: Brand Violet #4F06A7 (as accent) */
-  --accent: oklch(0.35 0.22 285);
-  --accent-foreground: oklch(1.0 0.0 0); /* White text on violet */
+  --accent: oklch(0.96 0 0);
+  --accent-foreground: oklch(0.15 0 0);
   
   --destructive: oklch(0.62 0.25 27);
-  --destructive-foreground: oklch(0.98 0.005 270);
+  --destructive-foreground: oklch(0.98 0 0);
   
-  --border: oklch(0.90 0.01 270);
-  --input: oklch(0.97 0.005 270);
-  --ring: oklch(0.74 0.15 70); /* Orange for focus */
+  --border: oklch(0.92 0 0);
+  --input: oklch(0.92 0 0);
+  --ring: oklch(0.45 0 0);
   
-  --radius: 0.75rem;
+  --radius: 0.5rem;
 }
 
 @theme {
@@ -68,51 +65,4 @@
   --radius-xl: calc(var(--radius) * 2);
   --radius-2xl: calc(var(--radius) * 3);
   --radius-full: 9999px;
-  
-  --font-family-host: 'Host Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-}
-
-body {
-  font-family: 'Host Grotesk', var(--font-family-host);
-  font-variation-settings: "wght" 400;
-  background: linear-gradient(135deg, oklch(0.985 0.005 45) 0%, oklch(0.98 0.008 70) 50%, oklch(0.985 0.003 285) 100%);
-  background-attachment: fixed;
-  min-height: 100vh;
-}
-
-/* Custom scrollbar for light theme */
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: oklch(0.95 0.01 270);
-}
-
-::-webkit-scrollbar-thumb {
-  background: oklch(0.85 0.02 270);
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: oklch(0.35 0.22 285);
-}
-
-/* Smooth transitions for interactive elements */
-* {
-  transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out, border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-}
-
-/* Enhanced focus rings - removed from login screen */
-
-/* Override select item hover state */
-[data-slot="select-item"]:hover,
-[data-slot="select-item"][data-highlighted] {
-  color: oklch(0.15 0.02 270) !important; /* Force dark text on hover */
-  background-color: oklch(0.74 0.15 70 / 0.1) !important; /* Light orange background */
-}
-
-[data-slot="select-item"]:focus {
-  color: oklch(0.15 0.02 270) !important; /* Force dark text on focus */
-  background-color: oklch(0.74 0.15 70 / 0.1) !important; /* Light orange background */
 }

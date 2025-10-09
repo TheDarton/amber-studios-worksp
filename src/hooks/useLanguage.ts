@@ -1,9 +1,7 @@
 import { useKV } from '@github/spark/hooks';
 
-export type Language = 'en' | 'ru' | 'lv' | 'lt' | 'pl' | 'ka' | 'es';
-
 interface LanguageState {
-  currentLanguage: Language;
+}
 }
 
 export function useLanguage() {
@@ -11,15 +9,14 @@ export function useLanguage() {
     currentLanguage: 'en'
   });
 
-  const changeLanguage = (lang: Language) => {
+  const changeLanguage = (lang: string) => {
     setLanguageState(prev => ({
       ...prev,
       currentLanguage: lang
     }));
-  };
+  re
 
-  return {
-    currentLanguage: languageState?.currentLanguage || 'en',
-    changeLanguage
-  };
 }
+
+
+
