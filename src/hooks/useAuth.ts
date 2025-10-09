@@ -35,8 +35,8 @@ export function useAuth() {
   const [countries, setCountries] = useKV<Country[]>('system-countries', []);
 
   const login = useCallback(async (username: string, password: string): Promise<boolean> => {
-    // Global Admin login
-    if (username === 'Global_admin' && password === 'Admin1234') {
+    // Global Admin login (case-insensitive)
+    if (username.toLowerCase() === 'global_admin' && password === 'Admin1234') {
       const globalAdminUser: User = {
         id: 'global_admin',
         username: 'Global_admin',
@@ -57,17 +57,17 @@ export function useAuth() {
     
     // Extract country code from username if it has prefix (e.g., "lv_admin" -> "lv")
     let countryCode = '';
-    let actualUsername = username;
+    let actualUsername = username.toLowerCase();
     if (username.includes('_')) {
       const parts = username.split('_');
       if (parts.length === 2) {
-        countryCode = parts[0];
-        actualUsername = parts[1];
+        countryCode = parts[0].toLowerCase();
+        actualUsername = parts[1].toLowerCase();
       }
     }
 
     const user = userList.find(u => 
-      u.username === actualUsername && 
+      u.username.toLowerCase() === actualUsername && 
       u.countryCode === countryCode && 
       u.isActive
     );

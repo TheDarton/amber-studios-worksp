@@ -7,6 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { toast } from 'sonner';
 import { Eye, EyeSlash } from '@phosphor-icons/react';
 import { LanguageSelector } from '@/components/LanguageSelector';
+import logoImage from '@/assets/images/amber-studios-logo.png';
 
 export function LoginModal() {
   const { login } = useAuth();
@@ -47,17 +48,29 @@ export function LoginModal() {
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
-      {/* Language Selector in top right corner */}
-      <div className="absolute top-4 right-4">
-        <LanguageSelector />
-      </div>
-      
-      <Card className="w-full max-w-md">
-        <CardHeader className="text-center">
-          <CardTitle className="text-2xl font-bold">Amber Studios</CardTitle>
-          <CardDescription>
-            Game Presenters and Shift Managers
-          </CardDescription>
+      <Card className="w-full max-w-md shadow-lg">
+        <CardHeader className="text-center space-y-4">
+          <div className="flex justify-between items-start">
+            <div className="flex-1" />
+            <div className="flex flex-col items-center space-y-2">
+              <img 
+                src={logoImage} 
+                alt="Amber Studios Logo" 
+                className="h-16 w-auto"
+              />
+              <div>
+                <CardTitle className="text-2xl font-bold text-foreground">
+                  Management System for amber-studios.com
+                </CardTitle>
+                <CardDescription className="mt-2 font-medium text-foreground">
+                  Game Presenters and Shift Managers
+                </CardDescription>
+              </div>
+            </div>
+            <div className="flex-1 flex justify-end">
+              <LanguageSelector />
+            </div>
+          </div>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -102,14 +115,6 @@ export function LoginModal() {
               {isLoading ? 'Signing in...' : 'Sign In'}
             </Button>
           </form>
-
-          <div className="mt-6 p-4 bg-muted rounded-lg">
-            <h4 className="text-sm font-medium text-foreground mb-2">Default Login</h4>
-            <div className="text-xs text-muted-foreground space-y-1">
-              <p><strong>Global Admin:</strong> username "Global_admin", password "Admin1234"</p>
-              <p><strong>Country Admins:</strong> Use prefix (e.g., "lv_admin") with their password</p>
-            </div>
-          </div>
         </CardContent>
       </Card>
     </div>

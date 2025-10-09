@@ -32,7 +32,7 @@ function App() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Language selector in top right */}
+      {/* Language selector in top right for authenticated users */}
       <div className="absolute top-4 right-4 z-50">
         <LanguageSelector />
       </div>
