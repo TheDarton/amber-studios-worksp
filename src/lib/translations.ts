@@ -1,4 +1,4 @@
-import { Language } from '@/hooks/useLanguage';
+export type Language = 'en' | 'ru';
 
 export const languageOptions = [
   { value: 'en' as Language, label: 'English' },

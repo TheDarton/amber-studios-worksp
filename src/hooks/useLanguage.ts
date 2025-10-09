@@ -1,7 +1,7 @@
 import { useKV } from '@github/spark/hooks';
 
 interface LanguageState {
-}
+  currentLanguage: string;
 }
 
 export function useLanguage() {
@@ -14,9 +14,11 @@ export function useLanguage() {
       ...prev,
       currentLanguage: lang
     }));
-  re
+  };
 
+  return {
+    ...languageState,
+    changeLanguage
+  };
 }
-
-
 
