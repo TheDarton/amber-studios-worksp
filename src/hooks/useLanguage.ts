@@ -1,6 +1,6 @@
 import { useKV } from '@github/spark/hooks';
 
-export interface Language {
+interface Language {
   code: string;
   name: string;
   flag: string;
@@ -8,12 +8,10 @@ export interface Language {
 
 export const LANGUAGES: Language[] = [
   { code: 'en', name: 'English', flag: '🇺🇸' },
-  { code: 'ru', name: 'Russian', flag: '🇷🇺' },
-  { code: 'lv', name: 'Latvian', flag: '🇱🇻' },
-  { code: 'lt', name: 'Lithuanian', flag: '🇱🇹' },
-  { code: 'pl', name: 'Polish', flag: '🇵🇱' },
-  { code: 'ka', name: 'Georgian', flag: '🇬🇪' },
-  { code: 'es', name: 'Spanish', flag: '🇪🇸' }
+  { code: 'ru', name: 'Русский', flag: '🇷🇺' },
+  { code: 'es', name: 'Español', flag: '🇪🇸' },
+  { code: 'fr', name: 'Français', flag: '🇫🇷' },
+  { code: 'de', name: 'Deutsch', flag: '🇩🇪' },
 ];
 
 interface LanguageState {
@@ -25,20 +23,21 @@ export function useLanguage() {
     currentLanguage: 'en'
   });
 
-  const changeLanguage = (langCode: string) => {
+  const setCurrentLanguage = (language: string) => {
     setLanguageState({
-      currentLanguage: langCode
+      currentLanguage: language
     });
   };
 
   const getCurrentLanguage = () => {
-    return LANGUAGES.find(lang => lang.code === languageState?.currentLanguage) || LANGUAGES[0];
+    const currentLang = languageState?.currentLanguage || 'en';
+    return LANGUAGES.find(lang => lang.code === currentLang) || LANGUAGES[0];
   };
 
   return {
     currentLanguage: languageState?.currentLanguage || 'en',
     languages: LANGUAGES,
-    changeLanguage,
+    changeLanguage: setCurrentLanguage,
     getCurrentLanguage
   };
 }
