@@ -1,6 +1,6 @@
-import { Country, UserRole } from '@/types';
+import { UserRole } from '@/types';
 
-export const COUNTRIES: { value: Country; label: string }[] = [
+export const COUNTRIES: { value: string; label: string }[] = [
   { value: 'poland', label: 'Poland' },
   { value: 'georgia', label: 'Georgia' },
   { value: 'colombia', label: 'Colombia' },
